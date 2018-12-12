@@ -12,4 +12,14 @@ export const Keyframes = {
       transform: translateX(0);
     }
   `,
+  fadeInUp: keyframes`
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  `,
 }

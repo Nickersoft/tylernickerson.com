@@ -5,6 +5,7 @@ import { StaticQuery, graphql } from 'gatsby'
 import { Container } from '@site/components'
 
 import Header from './components/Header'
+import Footer from './components/Footer'
 
 import './layout.css'
 
@@ -40,7 +41,8 @@ class Layout extends Component<Props> {
               <html lang="en" />
             </Helmet>
             <Header location={location} />
-            <Container>{children}</Container>
+            <Container style={{ padding: 0 }}>{children}</Container>
+            <Footer />
           </>
         )}
       />

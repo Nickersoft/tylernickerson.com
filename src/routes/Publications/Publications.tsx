@@ -3,34 +3,55 @@ import React, { PureComponent } from 'react'
 import { get, map } from 'lodash'
 import { Link, graphql } from 'gatsby'
 
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import Image from 'gatsby-image'
 
-import { Colors, Keyframes } from '@site/util'
+import { Colors, Keyframes, breakpoint } from '@site/util'
 
 const PublicationsPage = styled.div`
   animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
+  padding: 0 2.5rem;
 `
 
 const Header = styled.h1`
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
+  text-align: center;
+
+  ${breakpoint.desktop`
+    text-align: left;
+    margin-bottom: 3rem;
+  `}
 `
 
 const PublicationsContainer = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+
+  ${breakpoint.desktop`
+    justify-content: flex-start;
+  `}
 `
 
 const Publication = styled(Link)`
-  width: 12rem;
+  width: 100%;
   cursor: pointer;
   display: block;
+  max-width: 20rem;
   text-decoration: none;
-  margin-left: 4rem;
+  margin: 0 1rem 1rem;
 
-  &:first-of-type {
-    margin-left: 0;
-  }
+  ${breakpoint.desktop`
+    width: 12rem;
+    margin-left: 4rem;
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+  `}
 
   &:hover {
     & > div {
@@ -38,6 +59,10 @@ const Publication = styled(Link)`
     }
 
     & > span {
+      opacity: 0.9;
+    }
+
+    & > div {
       opacity: 0.9;
     }
   }
@@ -70,7 +95,7 @@ const PublicationYear = styled(PublicationTitle)`
 type PublicationType = {
   frontmatter: {
     title: string
-    years: string
+    sub: string
     thumbnail: Image
   }
   html: string
@@ -91,10 +116,10 @@ class Publications extends PureComponent<Props> {
     const thumbnail = get(publication, 'thumbnail.childImageSharp.fluid')
     const title = get(publication, 'title', '')
     const year = get(publication, 'year', '')
-    const slug = title.toLowerCase().replace(/\W+/g, '-')
+    const path = get(publication, 'path')
 
     return (
-      <Publication to={`/publications/${slug}`}>
+      <Publication key={title} to={path}>
         {thumbnail && <Image fluid={thumbnail} />}
         <PublicationTitle>{title}</PublicationTitle>
         <PublicationYear>{year}</PublicationYear>
@@ -117,7 +142,7 @@ class Publications extends PureComponent<Props> {
   }
 }
 
-export const pageQuery = graphql`
+export const query = graphql`
   {
     allMarkdownRemark(
       filter: { fileAbsolutePath: { regex: "/publications/" } }
@@ -128,6 +153,7 @@ export const pageQuery = graphql`
           frontmatter {
             title
             year
+            path
             thumbnail {
               childImageSharp {
                 fluid(maxWidth: 800, maxHeight: 1040) {

@@ -36,7 +36,22 @@ module.exports = {
         name: 'markdown',
       },
     },
-    `gatsby-transformer-remark`,
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 800,
+              quality: 90,
+              wrapperStyle: 'margin-bottom: 2rem;',
+              showCaptions: true,
+            },
+          },
+        ],
+      },
+    },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {

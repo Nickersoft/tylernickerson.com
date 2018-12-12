@@ -1,16 +1,21 @@
 import React, { Component } from 'react'
 
-import { Link } from 'gatsby'
-
 import styled from 'styled-components'
 
 import { Icon } from '@site/components'
+import { breakpoint } from '@site/util'
 
-type Props = {}
+type Props = {
+  selectedIcon: string
+}
 
 const Grid = styled.div`
-  display: flex;
+  display: none;
   flex-direction: column;
+
+  ${breakpoint.desktop`
+    display: flex;
+  `}
 `
 
 const Row = styled.div`
@@ -24,7 +29,7 @@ const Row = styled.div`
   }
 `
 
-const RowIcon = styled(Icon)`
+const RowIconLink = styled.a`
   margin-left: 1.5rem;
 
   &:first-child {
@@ -32,10 +37,29 @@ const RowIcon = styled(Icon)`
   }
 `
 
-const getIcon = (name: string) => <RowIcon name={name} key={name} />
+const RowIcon = styled(Icon)`
+  opacity: ${({ depressed }) => (depressed ? 0.75 : 1)};
+`
 
 class HomepageIconGrid extends Component<Props> {
+  getIcon(name: string) {
+    const { selectedIcon } = this.props
+
+    return (
+      <RowIconLink href={`#${name}`}>
+        <RowIcon
+          depressed={selectedIcon === name}
+          size={96}
+          name={name}
+          key={name}
+        />
+      </RowIconLink>
+    )
+  }
+
   render() {
+    const getIcon = this.getIcon.bind(this)
+
     return (
       <Grid>
         <Row>{['datql', 'edart', 'linguistic'].map(getIcon)}</Row>

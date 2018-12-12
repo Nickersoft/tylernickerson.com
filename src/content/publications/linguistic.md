@@ -1,6 +1,7 @@
 ---
 title: 'Linguistic: Community-Driven Language Learrning'
 year: '2018'
+path: /publications/linguistic
 publisher: 'Linguistic'
 thumbnail: '../../images/papers/linguistic.jpg'
 link: 'https://golinguistic.com/linguistic.pdf'

@@ -1,7 +1,8 @@
 ---
 title: 'Push'
-key: 'push'
-years: '2015 –'
+path: '/projects/push'
+sub: '2015 –'
+icon: 'push'
 tagline: "The world's most versatile desktop notifications framework"
 duration: 'May 2015 – Present'
 website: 'https://pushjs.org'

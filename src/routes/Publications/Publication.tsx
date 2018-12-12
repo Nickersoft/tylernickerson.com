@@ -2,17 +2,23 @@ import React, { PureComponent } from 'react'
 import Image from 'gatsby-image'
 
 import { get } from 'lodash'
-import { Link } from 'gatsby'
+import { graphql } from 'gatsby'
 
 import styled from 'styled-components'
 
-import { Colors, Keyframes } from '@site/util'
+import { Colors, Keyframes, breakpoint } from '@site/util'
+import { BackButton } from '@site/components'
 
 type Props = {
+  data: {
+    backImage: {
+      publicURL: string
+    }
+  }
   pageContext: {
     publication: {
       title: string
-      years: string
+      sub: string
       html: string
       link: string
     }
@@ -20,21 +26,29 @@ type Props = {
 }
 
 const HeaderTitle = styled.h1`
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: ${Colors.gray};
   line-height: 1.25em;
   margin: 0;
   padding: 0;
+
+  ${breakpoint.desktop`
+    font-size: 3rem;
+  `}
 `
 
 const HeaderSub = styled.span`
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: ${Colors.gray};
   line-height: 1.75rem;
   opacity: 0.5;
   display: block;
   margin: 0.5rem 0 0;
   padding: 0;
+
+  ${breakpoint.desktop`
+    font-size: 1.5rem;
+  `}
 `
 
 const Header = styled.header`
@@ -44,11 +58,16 @@ const Header = styled.header`
 
 const PublicationPage = styled.div`
   animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
+  padding: 0 2.5rem;
 `
 
 const PublicationPageContent = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+
+  ${breakpoint.desktop`
+    flex-direction: row;
+  `}
 `
 
 const AbstractBody = styled.div`
@@ -88,8 +107,12 @@ const Info = styled.div`
 
 const Preview = styled.div`
   display: block;
-  margin-left: 3rem;
-  width: 24rem;
+  width: 100%;
+  max-width: 24rem;
+
+  ${breakpoint.desktop`
+    margin-left: 3rem;
+  `}
 `
 
 const PreviewImageWrapper = styled.div`
@@ -101,13 +124,7 @@ const PreviewImageWrapper = styled.div`
   overflow: hidden;
 `
 
-const BackButton = styled(Link)`
-  color: ${Colors.gray};
-  opacity: 0.5;
-  display: block;
-  text-decoration: none;
-  font-size: 1rem;
-  line-height: 1.2em;
+const Back = styled(BackButton)`
   margin-bottom: 1.5rem;
 `
 
@@ -161,15 +178,16 @@ class Publication extends PureComponent<Props> {
   }
 
   render() {
-    const { title, year, publisher, thumbnail, html } = get(
-      this.props,
-      'pageContext.publication',
-      {}
-    )
+    const md = get(this.props, 'data.markdownRemark', {})
+    const frontmatter = get(md, 'frontmatter', {})
+    const thumbnail = get(frontmatter, 'thumbnail.childImageSharp.fluid')
+
+    const { html } = md
+    const { title, year, publisher } = frontmatter
 
     return (
       <PublicationPage>
-        <BackButton to="/publications">Back to Publications</BackButton>
+        <Back to="/publications">Back to Publications</Back>
         <PublicationPageContent>
           <Info>
             <Header>
@@ -194,5 +212,34 @@ class Publication extends PureComponent<Props> {
     )
   }
 }
+
+export const query = graphql`
+  query($path: String!) {
+    markdownRemark(frontmatter: { path: { eq: $path } }) {
+      html
+      headings {
+        depth
+        value
+      }
+      frontmatter {
+        title
+        year
+        link
+        publisher
+        thumbnail {
+          childImageSharp {
+            fluid(maxWidth: 800, maxHeight: 1040) {
+              base64
+              aspectRatio
+              src
+              srcSet
+              sizes
+            }
+          }
+        }
+      }
+    }
+  }
+`
 
 export default Publication

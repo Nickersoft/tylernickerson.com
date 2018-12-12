@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import styled, { css, keyframes } from 'styled-components'
 
-import { Colors } from '@site/util'
+import { Colors, breakpoint, Keyframes } from '@site/util'
 
 type FadeState = 'in' | 'out' | 'none'
 
@@ -12,10 +12,15 @@ type State = {
 }
 
 const Header = styled.h1`
-  text-align: left;
+  text-align: center;
+  animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
   color: ${Colors.gray};
   transition: all 0.5s ease-in-out;
   line-height: 1.15em;
+
+  ${breakpoint.desktop`
+    text-align: left;
+  `}
 `
 
 const fadeInAnimation = keyframes`

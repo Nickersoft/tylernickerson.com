@@ -1,7 +1,8 @@
 ---
 title: 'eDart'
-key: 'edart'
-years: '2013 – 2014'
+path: '/projects/edart'
+sub: '2013 – 2014'
+icon: 'edart'
 tagline: "It's Time for Something New"
 duration: 'June 2013 – October 2014'
 website: 'https://wewanttotrade.com'

@@ -2,7 +2,47 @@ const fs = require('fs')
 const path = require('path')
 const _ = require('lodash')
 
-function createPublicationRoutes(createPage, graphql) {
+function createPortfolioRoutes({ createPage }, graphql) {
+  const template = path.resolve(`src/routes/Portfolio/PortfolioPage.tsx`)
+
+  return graphql(`
+    {
+      allMarkdownRemark(
+        filter: { fileAbsolutePath: { regex: "/portfolio/" } }
+      ) {
+        edges {
+          node {
+            frontmatter {
+              title
+              path
+            }
+          }
+        }
+      }
+    }
+  `)
+    .then(result => {
+      if (result.errors) {
+        Promise.reject(result.errors)
+      }
+
+      result.data.allMarkdownRemark.edges.map(({ node }) => {
+        const { frontmatter } = node
+        const { path } = frontmatter
+
+        createPage({
+          path,
+          component: template,
+          context: {
+            layout: 'main',
+          },
+        })
+      })
+    })
+    .catch(console.error)
+}
+
+function createPublicationRoutes({ createPage }, graphql) {
   const template = path.resolve(`src/routes/Publications/Publication.tsx`)
 
   return graphql(`
@@ -12,27 +52,9 @@ function createPublicationRoutes(createPage, graphql) {
       ) {
         edges {
           node {
-            html
-            headings {
-              depth
-              value
-            }
             frontmatter {
-              title
-              year
-              link
-              publisher
-              thumbnail {
-                childImageSharp {
-                  fluid(maxWidth: 800, maxHeight: 1040) {
-                    base64
-                    aspectRatio
-                    src
-                    srcSet
-                    sizes
-                  }
-                }
-              }
+              sub
+              path
             }
           }
         }
@@ -46,25 +68,13 @@ function createPublicationRoutes(createPage, graphql) {
 
       result.data.allMarkdownRemark.edges.map(({ node }) => {
         const { frontmatter, html } = node
-        const {
-          title,
-          thumbnail: {
-            childImageSharp: { fluid: thumbnail },
-          },
-        } = frontmatter
-
-        const slug = title.toLowerCase().replace(/\W+/g, '-')
+        const { path } = frontmatter
 
         createPage({
-          path: `/publications/${slug}`,
+          path,
           component: template,
           context: {
             layout: 'main',
-            publication: {
-              ...frontmatter,
-              html,
-              thumbnail,
-            },
           },
         })
       })
@@ -72,27 +82,21 @@ function createPublicationRoutes(createPage, graphql) {
     .catch(console.error)
 }
 
-function createProjectRoutes(createPage, graphql) {
-  const template = path.resolve(`src/routes/Projects/Projects.tsx`)
+function createExperienceRoutes({ createPage, createRedirect }, graphql) {
+  const template = path.resolve(`src/routes/Experience/Experience.tsx`)
 
   return graphql(`
     {
-      allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/projects/" } }) {
+      allMarkdownRemark(
+        filter: { fileAbsolutePath: { regex: "/experience/" } }
+      ) {
         edges {
           node {
-            html
-            headings {
-              depth
-              value
-            }
             frontmatter {
-              title
-              key
+              path
               years
-              duration
-              tagline
-              website
-              stack
+              icon
+              title
             }
           }
         }
@@ -103,26 +107,89 @@ function createProjectRoutes(createPage, graphql) {
       return Promise.reject(result.errors)
     }
 
-    result.data.allMarkdownRemark.edges.forEach(({ node }) => {
-      const { frontmatter, html } = node
-      const { key } = frontmatter
+    const allMatter = _.reverse(
+      _.sortBy(_.map(result.data.allMarkdownRemark.edges, 'node.frontmatter'), [
+        'years',
+        'title',
+      ])
+    )
 
+    createRedirect({
+      fromPath: `/experience`,
+      isPermanent: true,
+      redirectInBrowser: true,
+      toPath: _.get(allMatter, '[0].path', ''),
+    })
+
+    allMatter.forEach(({ path }) => {
       createPage({
-        path: `/projects/${key}`,
+        path,
         component: template,
         context: {
-          layout: 'project',
-          project: {
-            ...frontmatter,
-            html,
-          },
+          data: allMatter,
+          layout: 'items',
         },
       })
     })
   })
 }
 
-function createBaseRoutes(createPage) {
+function createProjectRoutes({ createPage, createRedirect }, graphql) {
+  const template = path.resolve(`src/routes/Projects/Projects.tsx`)
+
+  return graphql(`
+    {
+      allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/projects/" } }) {
+        edges {
+          node {
+            headings {
+              depth
+              value
+            }
+            frontmatter {
+              path
+              icon
+              sub
+            }
+          }
+        }
+      }
+    }
+  `).then(result => {
+    if (result.errors) {
+      return Promise.reject(result.errors)
+    }
+
+    const { headings } = result
+
+    const allMatter = _.reverse(
+      _.sortBy(_.map(result.data.allMarkdownRemark.edges, 'node.frontmatter'), [
+        'sub',
+        'title',
+      ])
+    )
+
+    createRedirect({
+      fromPath: `/projects`,
+      isPermanent: true,
+      redirectInBrowser: true,
+      toPath: _.get(allMatter, '[0].path', ''),
+    })
+
+    allMatter.forEach(({ path }) => {
+      createPage({
+        path,
+        component: template,
+        context: {
+          data: allMatter,
+          layout: 'items',
+        },
+      })
+    })
+  })
+}
+
+function createBaseRoutes({ createPage }) {
   return new Promise(resolve => {
     const pagesDir = path.resolve(__dirname, 'src/routes')
     const directories = fs
@@ -135,25 +202,29 @@ function createBaseRoutes(createPage) {
       const url =
         baseName.toLowerCase() === 'homepage' ? '/' : _.kebabCase(baseName)
 
-      createPage({
-        path: url,
-        component: template,
-        context: {
-          layout: 'main',
-          customPage: true,
-        },
-      })
+      if (!['experience', 'projects'].includes(directory.toLowerCase())) {
+        createPage({
+          path: url,
+          component: template,
+          context: {
+            layout: 'main',
+            customPage: true,
+          },
+        })
+      }
     })
 
     resolve()
   })
 }
 
-exports.createPages = ({ graphql, actions: { createPage } }) => {
+exports.createPages = ({ graphql, actions }) => {
   Promise.all([
-    createBaseRoutes(createPage),
-    createProjectRoutes(createPage, graphql),
-    createPublicationRoutes(createPage, graphql),
+    createBaseRoutes(actions),
+    createProjectRoutes(actions, graphql),
+    createPublicationRoutes(actions, graphql),
+    createExperienceRoutes(actions, graphql),
+    createPortfolioRoutes(actions, graphql),
   ])
 }
 

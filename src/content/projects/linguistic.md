@@ -1,7 +1,8 @@
 ---
 title: 'Linguistic'
-key: 'linguistic'
-years: '2015 –'
+path: '/projects/linguistic'
+sub: '2015 –'
+icon: 'linguistic'
 tagline: 'A New Era of Language Learning'
 duration: 'May 2015 – Present'
 website: 'https://golinguistic.com'
@@ -20,3 +21,7 @@ In risus libero, commodo at commodo id, placerat id nibh. Duis ornare justo et p
 Duis orci arcu, iaculis vel dictum nec, mattis eu est. Morbi scelerisque a est sit amet posuere. Integer ornare scelerisque lectus non varius. Nunc diam massa, dapibus ac nibh vel, porta mattis neque. Vivamus volutpat vitae diam id volutpat. Ut dignissim, eros semper gravida ultrices, risus velit ultricies diam, ut feugiat mauris nunc eu odio. Praesent pretium leo ut ultricies facilisis. Quisque eu lorem at mauris pellentesque venenatis venenatis non orci. Integer consequat ultricies dignissim.
 
 Phasellus tempus eros sit amet euismod scelerisque. Nam nibh dui, fermentum quis odio sed, bibendum pulvinar arcu. Etiam id sem sit amet nulla mattis sagittis. Proin quis nulla justo. Fusce in lacinia felis. Sed nec metus tempus, ultricies nibh nec, blandit nisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi dapibus nisl ut lorem fringilla eleifend. Fusce auctor tellus felis, vitae rutrum urna luctus viverra. Curabitur turpis quam, congue vel tortor in, vehicula aliquet orci. Cras euismod ante vel purus euismod imperdiet. Nulla condimentum ante nunc, at semper eros porta nec. Praesent massa purus, iaculis sit amet rhoncus vel, ornare et neque.
+
+### Test
+
+### OtherTest

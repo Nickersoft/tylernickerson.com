@@ -1,7 +1,8 @@
 ---
 title: 'DatQL'
-key: 'datql'
-years: '2017 – '
+path: '/projects/datql'
+sub: '2017 – '
+icon: 'datql'
 tagline: 'I Vant To Drink Your Data (DatQL Dracula)'
 duration: 'October 2017 – Present'
 website: 'https://github.com/Linguistic/dql.js'

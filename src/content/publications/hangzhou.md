@@ -1,6 +1,7 @@
 ---
 title: 'Bridging the Gap: Attracting Western Venture Capital to Hangzhou'
 year: '2015'
+path: /publications/bridging-the-gap
 publisher: 'Worcester Polytechnic Institute'
 thumbnail: '../../images/papers/hangzhou.jpg'
 link: 'https://web.wpi.edu/Pubs/E-project/Available/E-project-121415-112201/unrestricted/Bridging_the_Gap.pdf'

@@ -1,49 +1,16 @@
 import React, { PureComponent } from 'react'
 
-import { get, map } from 'lodash'
+import { get, filter, map } from 'lodash'
+import { graphql } from 'gatsby'
 
+import GithubSlugger from 'github-slugger'
 import styled from 'styled-components'
 
-import { Colors, Keyframes } from '@site/util'
+import { TitledView } from '@site/components'
+import { Colors, renderAst, breakpoint } from '@site/util'
+import { Heading } from '@site/models'
 
-const MainContent = styled.div`
-  flex: 1;
-  padding: 0 2.5rem;
-  animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
-`
-
-const ContentHeader = styled.header`
-  display: block;
-  width: 100%;
-  padding: 0.75rem 0;
-  border-bottom: 2px solid ${Colors.lightGray};
-`
-
-const ContentHeaderLabel = styled.h1`
-  font-size: 1.125rem;
-  text-transform: uppercase;
-  color: ${Colors.gray};
-  opacity: 0.5;
-  letter-spacing: 4.5px;
-  line-height: 1.2em;
-  margin: 0;
-  padding: 0;
-`
-
-const ContentHeaderTitle = styled.h2`
-  font-size: 3rem;
-  line-height: 1.18em;
-  margin: 0;
-  padding: 0;
-  color: ${Colors.gray};
-`
-
-const ContentHeaderYear = styled.span`
-  font-size: 2em;
-  line-height: 1.75em;
-  color: ${Colors.gray};
-  opacity: 0.4;
-`
+const slugger = GithubSlugger()
 
 const ContentBody = styled.div`
   padding: 1.5rem 0;
@@ -51,6 +18,7 @@ const ContentBody = styled.div`
 
   h3 {
     color: ${Colors.gray};
+    margin: 0 0 1rem;
   }
 
   p {
@@ -62,11 +30,16 @@ const ContentBody = styled.div`
 
 const ContentOverview = styled.div`
   background: #f6f6f6;
-  width: 20rem;
-  float: right;
+  width: 100%;
   border-radius: 6px;
-  margin: 1.5rem 0 1.5rem 1.5rem;
+  margin-top: 1.5rem;
   padding: 1.75rem;
+
+  ${breakpoint.tablet`
+    float: right;
+    max-width: 20rem;
+    margin: 1.5rem 0 1.5rem 1.5rem;
+  `}
 
   h2 {
     font-size: 0.875rem;
@@ -118,8 +91,13 @@ const ContentOverviewListItemLabel = styled.span`
 
 type Props = {
   title: string
-  years: string
+  sub: string
   html: string
+  data: {
+    markdownRemark: {
+      headings: Heading[]
+    }
+  }
 }
 
 type OverviewInfo = {
@@ -146,44 +124,74 @@ class ProjectsContent extends PureComponent<Props> {
   }
 
   render() {
-    const { title, years, html, key, ...overview } = get(
-      this.props,
-      'pageContext.project',
-      {}
-    )
+    const md = get(this.props, 'data.markdownRemark', {})
+    const ast = get(md, 'htmlAst')
+    const frontmatter = get(md, 'frontmatter', {})
+
+    const { title, sub, ...overview } = frontmatter
+
+    slugger.reset()
+
+    // These have to be on separate lines otherwise TS breaks *shrug emoji*
+    const headings: Heading[] = get(md, 'headings', [])
+    const appropHeaders: Heading[] = filter(headings, { depth: 3 })
+    const headerLinks = appropHeaders.map(({ value }) => ({
+      name: value,
+      location: `#${slugger.slug(value)}`,
+    }))
 
     return (
-      <MainContent>
-        <>
-          <ContentHeader>
-            <ContentHeaderLabel>Projects</ContentHeaderLabel>
-            <ContentHeaderTitle>{title || ''}</ContentHeaderTitle>
-            <ContentHeaderYear>{years || ''}</ContentHeaderYear>
-          </ContentHeader>
-          <ContentOverview>
-            <h2>Quick Facts</h2>
-            <ContentOverviewList>
-              {map(overview, (value, key) => (
-                <ContentOverviewListItem>
-                  <ContentOverviewListItemLabel>
-                    {get(this.overviewProps, `${key}.label`, '')}
-                  </ContentOverviewListItemLabel>
-                  {key === 'website' ? (
-                    <a href={value} target="_blank">
-                      {value}
-                    </a>
-                  ) : (
-                    value
-                  )}
-                </ContentOverviewListItem>
-              ))}
-            </ContentOverviewList>
-          </ContentOverview>
-          <ContentBody dangerouslySetInnerHTML={{ __html: html || '' }} />
-        </>
-      </MainContent>
+      <TitledView
+        header={title}
+        subheader={sub}
+        navItems={headerLinks}
+        label="Projects"
+      >
+        <ContentOverview>
+          <h2>Quick Facts</h2>
+          <ContentOverviewList>
+            {map(overview, (value, key) => (
+              <ContentOverviewListItem key={key}>
+                <ContentOverviewListItemLabel>
+                  {get(this.overviewProps, `${key}.label`, '')}
+                </ContentOverviewListItemLabel>
+                {key === 'website' ? (
+                  <a href={value} target="_blank">
+                    {value}
+                  </a>
+                ) : (
+                  value
+                )}
+              </ContentOverviewListItem>
+            ))}
+          </ContentOverviewList>
+        </ContentOverview>
+        <ContentBody
+          dangerouslySetInnerHTML={{ __html: ast ? renderAst(ast) : '' }}
+        />
+      </TitledView>
     )
   }
 }
+
+export const query = graphql`
+  query($path: String!) {
+    markdownRemark(frontmatter: { path: { eq: $path } }) {
+      htmlAst
+      headings {
+        depth
+        value
+      }
+      frontmatter {
+        title
+        sub
+        duration
+        tagline
+        website
+        stack
+      }
+    }
+  }
+`
 
 export default ProjectsContent

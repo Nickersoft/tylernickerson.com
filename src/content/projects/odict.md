@@ -1,7 +1,8 @@
 ---
 title: 'ODict'
-key: 'odict'
-years: '2017 –'
+path: '/projects/odict'
+sub: '2017 –'
+icon: 'odict'
 duration: 'July 2017 – Present'
 website: 'https://github.com/odict/odict'
 status: 'Active'

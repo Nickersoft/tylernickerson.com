@@ -1,7 +1,13 @@
-/**
- * Implement Gatsby's Browser APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/browser-apis/
- */
+exports.onRouteUpdate = ({ location }) => {
+  if (location.hash) {
+    setTimeout(() => {
+      const target = document.querySelector(`${location.hash}`)
 
-// You can delete this file if you're not using it
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+        })
+      }
+    }, 0)
+  }
+}
