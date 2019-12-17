@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from "react"
 
-import styled from 'styled-components'
+import styled from "styled-components"
 
-import { LinkModel } from '@site/models'
-import { Colors, breakpoint, Keyframes } from '@site/util'
+import { LinkModel } from "@site/models"
+import { Colors, breakpoint, Keyframes } from "@site/util"
 
 const MainContent = styled.div`
   flex: 1;
@@ -102,7 +102,7 @@ const ContentHeaderText = styled.div`
   ${breakpoint.desktop`
     margin: 0;
     width: auto;
-    min-width: 20rem;
+    min-width: 15rem;
     margin-right: 1rem;
   `}
 `
@@ -127,9 +127,9 @@ export class TitledView extends PureComponent<Props> {
       <MainContent>
         <ContentHeader>
           <ContentHeaderText>
-            <ContentHeaderLabel>{label || ''}</ContentHeaderLabel>
-            <ContentHeaderTitle>{header || ''}</ContentHeaderTitle>
-            <ContentHeaderYear>{subheader || ''}</ContentHeaderYear>
+            <ContentHeaderLabel>{label || ""}</ContentHeaderLabel>
+            <ContentHeaderTitle>{header || ""}</ContentHeaderTitle>
+            <ContentHeaderYear>{subheader || ""}</ContentHeaderYear>
           </ContentHeaderText>
           <ContentHeaderNav>
             {navItems.map(item => (

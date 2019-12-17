@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import styled from "styled-components"
 
-import { Colors } from '@site/util'
+import { Colors } from "@site/util"
 
 export const TextArea = styled.div`
   padding: 1.5rem 0;
@@ -18,11 +18,15 @@ export const TextArea = styled.div`
   }
 
   a {
-    color: ${Colors.gray};
+    color: #1a1a1a;
     transition: all 0.3s ease-in-out;
+  }
 
-    &:focus, &:active, &:hover {
-      color: ${Colors.blue}
-    }
+  img {
+    box-shadow: none !important;
+  }
+
+  div.gatsby-highlight {
+    margin-bottom: 1.45rem;
   }
 `

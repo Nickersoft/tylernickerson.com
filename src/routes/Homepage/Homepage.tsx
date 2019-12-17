@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from "react"
 
-import { graphql } from 'gatsby'
-import { map, flow, find, get } from 'lodash/fp'
+import { graphql } from "gatsby"
+import { map, flow, find, get } from "lodash/fp"
 
-import styled from 'styled-components'
+import styled from "styled-components"
 
-import ProjectPreview from './HomepageProjectPreview'
-import AnimatedHeader from './HomepageAnimatedHeader'
-import IconGrid from './HomepageIconGrid'
+import ProjectPreview from "./HomepageProjectPreview"
+import AnimatedHeader from "./HomepageAnimatedHeader"
+import IconGrid from "./HomepageIconGrid"
 
 type Props = {
   location: Location
@@ -33,25 +33,23 @@ const HomepageWrapper = styled.main`
 class Homepage extends Component<Props> {
   getProjectPreview(id: string) {
     const data = flow(
-      get('data.allMarkdownRemark.edges'),
-      map('node'),
-      find(['frontmatter.id', id])
+      get("data.allMarkdownRemark.edges"),
+      map("node"),
+      find(["frontmatter.id", id])
     )(this.props)
 
-    const frontmatter = get('frontmatter')(data)
-    const title = get('title')(frontmatter)
-    const tagline = get('tagline')(frontmatter)
-    const duration = get('duration')(frontmatter)
-    const website = get('website')(frontmatter)
-    const path = get('path')(frontmatter)
-    const html = get('html')(data)
-
-    console.log(this.props)
+    const frontmatter = get("frontmatter")(data)
+    const title = get("title")(frontmatter)
+    const tagline = get("tagline")(frontmatter)
+    const duration = get("duration")(frontmatter)
+    const website = get("website")(frontmatter)
+    const link = get("link")(frontmatter)
+    const html = get("html")(data)
 
     return (
       <ProjectPreview
         title={title}
-        path={path}
+        link={link}
         id={id}
         website={website}
         duration={duration}
@@ -62,19 +60,24 @@ class Homepage extends Component<Props> {
   }
 
   render() {
-    const hash = get('hash')(location).substr(1)
+    let hash = ""
+
+    if (typeof location !== "undefined") {
+      hash = get("hash")(location).substr(1)
+    }
+
     const renderPreview = hash.trim().length > 0
 
     return (
       <HomepageWrapper>
         {renderPreview ? this.getProjectPreview(hash) : <AnimatedHeader />}
-        <IconGrid selectedIcon={hash || ''} />
+        <IconGrid selectedIcon={hash || ""} />
       </HomepageWrapper>
     )
   }
 }
 
-export const query = graphql`
+export const pageQuery = graphql`
   {
     allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/preview/" } }) {
       edges {
@@ -85,7 +88,7 @@ export const query = graphql`
             website
             duration
             tagline
-            path
+            link
           }
           html
         }

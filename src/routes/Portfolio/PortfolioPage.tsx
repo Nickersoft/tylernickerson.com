@@ -1,13 +1,14 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from "react"
 
-import { get } from 'lodash'
-import { graphql } from 'gatsby'
+import { get } from "lodash"
+import { graphql } from "gatsby"
 
-import styled from 'styled-components'
-import Image from 'gatsby-image'
+import Helmet from "react-helmet"
+import styled from "styled-components"
+import Image from "gatsby-image"
 
-import { Keyframes, breakpoint, Colors } from '@site/util'
-import { TextArea, BackButton } from '@site/components'
+import { Keyframes, breakpoint, Colors } from "@site/util"
+import { TextArea, BackButton } from "@site/components"
 
 const PortfolioContainer = styled.div`
   animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
@@ -43,6 +44,19 @@ const Back = styled(BackButton)`
   margin-bottom: 2rem;
 `
 
+const Text = styled(TextArea)`
+  figcaption {
+    color: ${Colors.gray};
+    margin-top: 1rem;
+
+    span {
+      opacity: 0.75;
+      display: block;
+      font-style: italic;
+    }
+  }
+`
+
 type PublicationType = {
   frontmatter: {
     title: string
@@ -64,26 +78,29 @@ type Props = {
 
 class PortfolioCollection extends PureComponent<Props> {
   render() {
-    const fm = get(this.props, 'data.markdownRemark.frontmatter')
-    const title = get(fm, 'title', '')
-    const year = get(fm, 'year', '')
-    const sub = get(fm, 'sub', '')
-    const html = get(this.props, 'data.markdownRemark.html', '')
+    const fm = get(this.props, "data.markdownRemark.frontmatter")
+    const title = get(fm, "title", "")
+    const year = get(fm, "year", "")
+    const sub = get(fm, "sub", "")
+    const html = get(this.props, "data.markdownRemark.html", "")
 
     return (
-      <PortfolioContainer>
-        <Back to="/portfolio">Back to Portfolio</Back>
-        <Header>
-          {title}
-          <Year>{`${sub} (${year})`}</Year>
-        </Header>
-        <TextArea dangerouslySetInnerHTML={{ __html: html }} />
-      </PortfolioContainer>
+      <>
+        <Helmet title={`${title} | Portfolio`} />
+        <PortfolioContainer>
+          <Back to="/portfolio">Back to Portfolio</Back>
+          <Header>
+            {title}
+            <Year>{`${sub} (${year})`}</Year>
+          </Header>
+          <Text dangerouslySetInnerHTML={{ __html: html }} />
+        </PortfolioContainer>
+      </>
     )
   }
 }
 
-export const query = graphql`
+export const pageQuery = graphql`
   query($path: String!) {
     markdownRemark(frontmatter: { path: { eq: $path } }) {
       html

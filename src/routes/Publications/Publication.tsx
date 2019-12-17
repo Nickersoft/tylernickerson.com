@@ -1,13 +1,14 @@
-import React, { PureComponent } from 'react'
-import Image from 'gatsby-image'
+import React, { PureComponent } from "react"
+import Image from "gatsby-image"
 
-import { get } from 'lodash'
-import { graphql } from 'gatsby'
+import { get } from "lodash"
+import { graphql } from "gatsby"
 
-import styled from 'styled-components'
+import styled from "styled-components"
 
-import { Colors, Keyframes, breakpoint } from '@site/util'
-import { BackButton } from '@site/components'
+import { Colors, Keyframes, breakpoint } from "@site/util"
+import { BackButton } from "@site/components"
+import { Helmet } from "react-helmet"
 
 type Props = {
   data: {
@@ -145,7 +146,7 @@ const ReadButton = styled.button`
   outline: none;
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -173,20 +174,26 @@ const ReadButton = styled.button`
 
 class Publication extends PureComponent<Props> {
   goToLink() {
-    const { link } = get(this.props, 'pageContext.publication', {})
-    window.open(link, '_blank')
+    const link = get(this.props, "data.markdownRemark.frontmatter.link")
+    const file = get(
+      this.props,
+      "data.markdownRemark.frontmatter.file.publicURL"
+    )
+
+    window.open(file || link, "_blank")
   }
 
   render() {
-    const md = get(this.props, 'data.markdownRemark', {})
-    const frontmatter = get(md, 'frontmatter', {})
-    const thumbnail = get(frontmatter, 'thumbnail.childImageSharp.fluid')
+    const md = get(this.props, "data.markdownRemark", {})
+    const frontmatter = get(md, "frontmatter", {})
+    const thumbnail = get(frontmatter, "thumbnail.childImageSharp.fluid")
 
     const { html } = md
     const { title, year, publisher } = frontmatter
 
     return (
       <PublicationPage>
+        <Helmet title={`${title} | Publications`} />
         <Back to="/publications">Back to Publications</Back>
         <PublicationPageContent>
           <Info>
@@ -204,7 +211,6 @@ class Publication extends PureComponent<Props> {
             <PreviewImageWrapper>
               <Image fluid={thumbnail} />
             </PreviewImageWrapper>
-
             <ReadButton onClick={this.goToLink.bind(this)}>Read Now</ReadButton>
           </Preview>
         </PublicationPageContent>
@@ -213,7 +219,7 @@ class Publication extends PureComponent<Props> {
   }
 }
 
-export const query = graphql`
+export const pageQuery = graphql`
   query($path: String!) {
     markdownRemark(frontmatter: { path: { eq: $path } }) {
       html
@@ -226,6 +232,9 @@ export const query = graphql`
         year
         link
         publisher
+        file {
+          publicURL
+        }
         thumbnail {
           childImageSharp {
             fluid(maxWidth: 800, maxHeight: 1040) {

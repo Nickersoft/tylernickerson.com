@@ -1,10 +1,10 @@
 ---
-title: 'ODict'
-id: 'odict'
-duration: 'July 2017 – Present'
-website: 'https://github.com/odict/odict'
-tagline: 'A Blazingly Fast Dictionary'
-path: '/projects/linguistic'
+title: "ODict"
+id: "odict"
+duration: "July 2017 – Present"
+website: "https://github.com/odict/odict"
+tagline: "A Blazingly Fast Dictionary"
+link: "/projects/odict"
 ---
 
 ODict (short for Open Dictionary) is an open-source file format for persistent offline dictionaries (like the macOS Dictionary app).

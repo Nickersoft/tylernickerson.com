@@ -1,12 +1,13 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from "react"
 
-import { get, map } from 'lodash'
-import { Link, graphql } from 'gatsby'
+import { get, map } from "lodash"
+import { Link, graphql } from "gatsby"
 
-import styled from 'styled-components'
-import Image from 'gatsby-image'
+import styled from "styled-components"
+import Image from "gatsby-image"
+import Helmet from "react-helmet"
 
-import { Colors, Keyframes, breakpoint } from '@site/util'
+import { Colors, Keyframes, breakpoint } from "@site/util"
 
 const PublicationsPage = styled.div`
   animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
@@ -40,15 +41,14 @@ const Publication = styled(Link)`
   width: 100%;
   cursor: pointer;
   display: block;
-  max-width: 20rem;
   text-decoration: none;
-  margin: 0 1rem 1rem;
+  margin: 0 0 2rem;
 
   ${breakpoint.desktop`
-    width: 12rem;
+    width: calc((100% - (4rem * 3)) / 4);
     margin-left: 4rem;
 
-    &:first-of-type {
+    &:first-of-type, &:nth-child(5n) {
       margin-left: 0;
     }
   `}
@@ -113,10 +113,10 @@ type Props = {
 
 class Publications extends PureComponent<Props> {
   getPublicationEntry(publication: PublicationType) {
-    const thumbnail = get(publication, 'thumbnail.childImageSharp.fluid')
-    const title = get(publication, 'title', '')
-    const year = get(publication, 'year', '')
-    const path = get(publication, 'path')
+    const thumbnail = get(publication, "thumbnail.childImageSharp.fluid")
+    const title = get(publication, "title", "")
+    const year = get(publication, "year", "")
+    const path = get(publication, "path")
 
     return (
       <Publication key={title} to={path}>
@@ -128,11 +128,12 @@ class Publications extends PureComponent<Props> {
   }
 
   render() {
-    const edges = get(this.props, 'data.allMarkdownRemark.edges', [])
-    const entries = map(edges, 'node.frontmatter')
+    const edges = get(this.props, "data.allMarkdownRemark.edges", [])
+    const entries = map(edges, "node.frontmatter")
 
     return (
       <PublicationsPage>
+        <Helmet title="Publications | Tyler Nickerson" />
         <Header>Publications</Header>
         <PublicationsContainer>
           {entries.map(this.getPublicationEntry)}
@@ -142,7 +143,7 @@ class Publications extends PureComponent<Props> {
   }
 }
 
-export const query = graphql`
+export const pageQuery = graphql`
   {
     allMarkdownRemark(
       filter: { fileAbsolutePath: { regex: "/publications/" } }

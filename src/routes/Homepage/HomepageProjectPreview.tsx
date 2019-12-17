@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from "react"
 
-import { Link } from 'gatsby'
+import { Link } from "gatsby"
 
-import styled, { css, keyframes } from 'styled-components'
+import styled, { css, keyframes } from "styled-components"
 
-import { Colors, Brands, Keyframes } from '@site/util'
-import { BackButton } from '@site/components'
+import { Colors, Brands, Keyframes } from "@site/util"
+import { BackButton } from "@site/components"
 
 const ANIM_BASE_DURATION = 0.2
 
@@ -44,7 +44,7 @@ const Header = styled.header<ColorProps & AnimationProps>`
   position: relative;
 
   &:after {
-    content: '';
+    content: "";
     display: block;
     animation: ${accentAnimation} 0.5s ease-in-out;
     animation-fill-mode: both;
@@ -151,7 +151,7 @@ const Button = styled(Link)<ColorProps & AnimationProps>`
   }
 
   &:before {
-    content: '▶';
+    content: "▶";
     position: absolute;
     right: 1.5rem;
     top: 50%;
@@ -160,7 +160,7 @@ const Button = styled(Link)<ColorProps & AnimationProps>`
   }
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     transition: opacity 0.3s ease-in-out;
     width: 100%;
@@ -177,14 +177,14 @@ type Props = {
   duration: string
   website: string
   tagline: string
-  path: string
+  link: string
   html: string
   id: string
 }
 
 class HomepageProjectPreview extends Component<Props> {
   render() {
-    const { title, duration, website, id, tagline, path, html } = this.props
+    const { title, duration, website, id, tagline, link, html } = this.props
 
     const brandColors = Brands[id]
 
@@ -204,12 +204,12 @@ class HomepageProjectPreview extends Component<Props> {
         <Overview animationIndex={5}>
           <span>Duration: </span> {duration}
           <br />
-          <span>Website: </span>{' '}
+          <span>Website: </span>{" "}
           <a href={website} target="_blank">
             {website}
           </a>
         </Overview>
-        <Button animationIndex={6} accentColors={brandColors} to={path}>
+        <Button animationIndex={6} accentColors={brandColors} to={link}>
           Learn More
         </Button>
       </Preview>

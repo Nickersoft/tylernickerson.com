@@ -1,27 +1,34 @@
 ---
-title: 'Linguistic'
-path: '/projects/linguistic'
-sub: '2015 –'
-icon: 'linguistic'
-tagline: 'A New Era of Language Learning'
-duration: 'May 2015 – Present'
-website: 'https://golinguistic.com'
-status: 'Active'
-stack: 'Scala, Node, Swift, Postgres, C++'
+title: "Linguistic"
+path: "/projects/linguistic"
+sub: "2015 –"
+icon: "linguistic"
+tagline: "A New Era of Language Learning"
+duration: "May 2015 – Present"
+website: "https://golinguistic.com"
+status: "Active"
+stack: "Scala, Node, Swift, Postgres, C++"
+originally: "WorldTongue, Linguist"
 ---
 
-### Title Goes Here
+### Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque sem vel urna suscipit luctus. Sed vel nunc ante. Donec eu elementum sapien, mollis placerat libero. In a ante neque. Vivamus nibh neque, vulputate in urna sed, hendrerit luctus diam. Donec convallis, sapien sit amet ornare scelerisque, justo nisl vehicula lectus, vitae commodo justo ex vestibulum purus. Aliquam fermentum enim leo, ac mattis augue accumsan vitae. Maecenas vitae ligula augue. Etiam dapibus purus ultricies lobortis egestas.
+Linguistic is the first language learning platform whose curriculum is derived solely from one-on-one conversations with native speakers and additional real-world resources. Instead of following the traditional, lesson-based approach apps such as Duolingo, Rosetta Stone, and Babbel use, Linguistic hand-matches you with native speakers in a bidirectional language exchange. While chatting, if you don't understand what your partner is saying, you can simply tap any message and view comprehensive information regarding the vocabulary they're using as well as grammar patterns. You can add this data to in-app study sets, and once you're well-reviewed, Linguistic will assist you in incorporating your newly learned words back into your conversations.
 
-Integer dapibus metus in blandit hendrerit. Aliquam laoreet viverra dolor in commodo. Ut dictum pharetra ligula, tincidunt dapibus erat rutrum in. Etiam congue dignissim ligula, non gravida tellus lacinia at. Donec auctor condimentum velit, et ullamcorper libero pharetra sit amet. Nam nulla nisi, convallis a rutrum non, tincidunt id odio. Ut eu consequat nibh, in consequat nisl. Pellentesque eu ante felis. Morbi sed porttitor dolor, nec semper nisl. Nunc at purus sed metus scelerisque tristique. Etiam id aliquam sapien. Quisque mollis, tortor sit amet viverra ultricies, tortor nulla molestie est, at faucibus lacus nulla ac dui. Quisque id ultricies odio. Morbi et arcu leo. Etiam aliquam justo vel mauris rutrum fringilla.
+Additionally, Linguistic automatically tracks and graphs your vocabulary and grammatical proficiency as you converse, and recommends foreign news articles, music, and movies based on your inferred proficiency level. The project is the result of multiple years of research and prototyping.
 
-In risus libero, commodo at commodo id, placerat id nibh. Duis ornare justo et purus ullamcorper dignissim. Aenean ullamcorper dui eu odio tristique, ut eleifend risus placerat. Quisque ut consectetur lorem. Maecenas accumsan pellentesque tortor, at ullamcorper ligula semper ut. Aenean tempor justo non elit semper feugiat. Nam tristique sodales leo. Ut eleifend lacinia nisi, et pellentesque mauris sodales eget. Donec semper felis vel elit vestibulum egestas. Cras enim magna, tempor eu cursus in, dapibus et velit. Praesent vulputate tortor enim, sed mattis risus luctus vitae.
+You can read the latest paper discussing Linguistic's pedagogy, approach, and technology [here](/publications/linguistic).
 
-Duis orci arcu, iaculis vel dictum nec, mattis eu est. Morbi scelerisque a est sit amet posuere. Integer ornare scelerisque lectus non varius. Nunc diam massa, dapibus ac nibh vel, porta mattis neque. Vivamus volutpat vitae diam id volutpat. Ut dignissim, eros semper gravida ultrices, risus velit ultricies diam, ut feugiat mauris nunc eu odio. Praesent pretium leo ut ultricies facilisis. Quisque eu lorem at mauris pellentesque venenatis venenatis non orci. Integer consequat ultricies dignissim.
+### Motivation
 
-Phasellus tempus eros sit amet euismod scelerisque. Nam nibh dui, fermentum quis odio sed, bibendum pulvinar arcu. Etiam id sem sit amet nulla mattis sagittis. Proin quis nulla justo. Fusce in lacinia felis. Sed nec metus tempus, ultricies nibh nec, blandit nisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi dapibus nisl ut lorem fringilla eleifend. Fusce auctor tellus felis, vitae rutrum urna luctus viverra. Curabitur turpis quam, congue vel tortor in, vehicula aliquet orci. Cras euismod ante vel purus euismod imperdiet. Nulla condimentum ante nunc, at semper eros porta nec. Praesent massa purus, iaculis sit amet rhoncus vel, ornare et neque.
+While a number of language learning platforms currently exist, few if none focus on arguably the most important aspect of learning a new language: communication. Apps such as Lingodeer, Duolingo, Babbel, Rosetta Stone, and Memrise all treat language learning as if it occurs in a vacuum. You learn _x_ new words and you're expected to return to the app every day to reinforce your understanding of those words. In reality, individuals expand their understanding of a language through encounters: someone you're speaking to uses a word you don't recognize, song lyrics don't make sense, you pick words out of a paper you're reading. Why shouldn't modern language learning technology operate the same way?
 
-### Test
+### System Design
 
-### OtherTest
+To this day, Linguistic has the most sophisticated architecture of any codebase I've worked on. The system consists of multiple microservices and tops 115,000 lines of code. All client apps communicate to a central GraphQL API, which delegates high priority tasks to a distributed Scala service. The Scala service, along with automated server-side scripts, cache computed data in a persistent [Redis](https://redis.io/) store. The services are best illustrated as:
+
+![System Infrastructure](../../images/pics/linguistic-1.png)
+
+### Visual Design
+
+In my own personal opinion, designing Linguistic's UI and brand is some of the best design work I've done in years, and I'm extremely proud of it. You can read more about its design [in my portfolio](/portfolio/linguistic).

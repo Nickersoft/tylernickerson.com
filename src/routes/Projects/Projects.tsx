@@ -1,32 +1,17 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from "react"
 
-import { get, filter, map } from 'lodash'
-import { graphql } from 'gatsby'
+import { get, filter, map } from "lodash"
+import { graphql } from "gatsby"
 
-import GithubSlugger from 'github-slugger'
-import styled from 'styled-components'
+import Helmet from "react-helmet"
+import GithubSlugger from "github-slugger"
+import styled from "styled-components"
 
-import { TitledView } from '@site/components'
-import { Colors, renderAst, breakpoint } from '@site/util'
-import { Heading } from '@site/models'
+import { TitledView, TextArea } from "@site/components"
+import { Colors, renderAst, breakpoint } from "@site/util"
+import { Heading } from "@site/models"
 
 const slugger = GithubSlugger()
-
-const ContentBody = styled.div`
-  padding: 1.5rem 0;
-  color: ${Colors.gray};
-
-  h3 {
-    color: ${Colors.gray};
-    margin: 0 0 1rem;
-  }
-
-  p {
-    text-align: justify;
-    font-size: 1rem;
-    line-height: 1.5em;
-  }
-`
 
 const ContentOverview = styled.div`
   background: #f6f6f6;
@@ -107,33 +92,36 @@ type OverviewInfo = {
 class ProjectsContent extends PureComponent<Props> {
   overviewProps: { [key: string]: OverviewInfo } = {
     stack: {
-      label: 'Built With',
+      label: "Built With",
     },
     website: {
-      label: 'Website',
+      label: "Website",
     },
     duration: {
-      label: 'Duration',
+      label: "Duration",
     },
     tagline: {
-      label: 'Tagline',
+      label: "Tagline",
     },
     status: {
-      label: 'Status',
+      label: "Status",
+    },
+    originally: {
+      label: "Original Names",
     },
   }
 
   render() {
-    const md = get(this.props, 'data.markdownRemark', {})
-    const ast = get(md, 'htmlAst')
-    const frontmatter = get(md, 'frontmatter', {})
+    const md = get(this.props, "data.markdownRemark", {})
+    const ast = get(md, "htmlAst")
+    const frontmatter = get(md, "frontmatter", {})
 
     const { title, sub, ...overview } = frontmatter
 
     slugger.reset()
 
     // These have to be on separate lines otherwise TS breaks *shrug emoji*
-    const headings: Heading[] = get(md, 'headings', [])
+    const headings: Heading[] = get(md, "headings", [])
     const appropHeaders: Heading[] = filter(headings, { depth: 3 })
     const headerLinks = appropHeaders.map(({ value }) => ({
       name: value,
@@ -141,40 +129,45 @@ class ProjectsContent extends PureComponent<Props> {
     }))
 
     return (
-      <TitledView
-        header={title}
-        subheader={sub}
-        navItems={headerLinks}
-        label="Projects"
-      >
-        <ContentOverview>
-          <h2>Quick Facts</h2>
-          <ContentOverviewList>
-            {map(overview, (value, key) => (
-              <ContentOverviewListItem key={key}>
-                <ContentOverviewListItemLabel>
-                  {get(this.overviewProps, `${key}.label`, '')}
-                </ContentOverviewListItemLabel>
-                {key === 'website' ? (
-                  <a href={value} target="_blank">
-                    {value}
-                  </a>
-                ) : (
-                  value
-                )}
-              </ContentOverviewListItem>
-            ))}
-          </ContentOverviewList>
-        </ContentOverview>
-        <ContentBody
-          dangerouslySetInnerHTML={{ __html: ast ? renderAst(ast) : '' }}
-        />
-      </TitledView>
+      <>
+        <Helmet title={`${title} | Projects`} />
+        <TitledView
+          header={title}
+          subheader={sub}
+          navItems={headerLinks}
+          label="Projects"
+        >
+          <ContentOverview>
+            <h2>Quick Facts</h2>
+            <ContentOverviewList>
+              {map(overview, (value, key) =>
+                value ? (
+                  <ContentOverviewListItem key={key}>
+                    <ContentOverviewListItemLabel>
+                      {get(this.overviewProps, `${key}.label`, "")}
+                    </ContentOverviewListItemLabel>
+                    {key === "website" ? (
+                      <a href={value} target="_blank">
+                        {value}
+                      </a>
+                    ) : (
+                      value
+                    )}
+                  </ContentOverviewListItem>
+                ) : null
+              )}
+            </ContentOverviewList>
+          </ContentOverview>
+          <TextArea
+            dangerouslySetInnerHTML={{ __html: ast ? renderAst(ast) : "" }}
+          />
+        </TitledView>
+      </>
     )
   }
 }
 
-export const query = graphql`
+export const pageQuery = graphql`
   query($path: String!) {
     markdownRemark(frontmatter: { path: { eq: $path } }) {
       htmlAst
@@ -188,6 +181,7 @@ export const query = graphql`
         duration
         tagline
         website
+        originally
         stack
       }
     }

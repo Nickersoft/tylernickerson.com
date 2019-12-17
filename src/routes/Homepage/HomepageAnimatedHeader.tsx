@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from "react"
 
-import styled, { css, keyframes } from 'styled-components'
+import styled, { css, keyframes } from "styled-components"
 
-import { Colors, breakpoint, Keyframes } from '@site/util'
+import { Colors, breakpoint, Keyframes } from "@site/util"
+import { graphql, StaticQuery } from "gatsby"
 
-type FadeState = 'in' | 'out' | 'none'
+type FadeState = "in" | "out" | "none"
 
 type State = {
   fadeState: FadeState
@@ -13,7 +14,6 @@ type State = {
 
 const Header = styled.h1`
   text-align: center;
-  animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
   color: ${Colors.gray};
   transition: all 0.5s ease-in-out;
   line-height: 1.15em;
@@ -77,16 +77,44 @@ const AnimatedText = styled.span<AnimatedTextState>`
   text-align: center;
   position: relative;
   width: 100%;
+
   ${({ fadeState }) => {
-    if (fadeState !== 'none') {
+    if (fadeState !== "none") {
       return css`
-        animation: ${fadeState === 'in' ? fadeInAnimation : fadeOutAnimation}
+        animation: ${fadeState === "in" ? fadeInAnimation : fadeOutAnimation}
           0.5s ease-in-out forwards;
       `
     }
 
-    return ''
+    return ""
   }};
+`
+
+const Container = styled.div`
+  animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
+`
+
+const ResumeLink = styled.p`
+  display: block;
+  color: #777;
+  text-align: center;
+  padding: 0 2rem;
+
+  a {
+    color: #555;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+      color: ${Colors.blue};
+    }
+  }
+
+  ${breakpoint.desktop`
+    padding: 0;
+    text-align: left;
+  `}
 `
 
 type Title = {
@@ -96,27 +124,27 @@ type Title = {
 
 const titles: Title[] = [
   {
-    text: 'designer',
+    text: "designer",
     color: Colors.blue,
   },
   {
-    text: 'developer',
+    text: "developer",
     color: Colors.red,
   },
   {
-    text: 'dreamer',
+    text: "dreamer",
     color: Colors.green,
   },
   {
-    text: 'builder',
+    text: "builder",
     color: Colors.orange,
   },
   {
-    text: 'raconteur',
+    text: "raconteur",
     color: Colors.teal,
   },
   {
-    text: 'creator',
+    text: "creator",
     color: Colors.purple,
   },
 ]
@@ -125,7 +153,7 @@ type Props = {}
 
 class HomepageAnimatedHeader extends Component<Props, State> {
   state = {
-    fadeState: 'none' as 'none',
+    fadeState: "none" as "none",
     currentTitleIndex: 0,
   }
 
@@ -137,11 +165,11 @@ class HomepageAnimatedHeader extends Component<Props, State> {
       const nextIndex =
         currentTitleIndex === titles.length - 1 ? 0 : currentTitleIndex + 1
       this.setState({
-        fadeState: 'out',
+        fadeState: "out",
       })
       setTimeout(() => {
         this.setState({
-          fadeState: 'in',
+          fadeState: "in",
           currentTitleIndex: nextIndex,
         })
       }, 600)
@@ -160,17 +188,37 @@ class HomepageAnimatedHeader extends Component<Props, State> {
     ]
 
     return (
-      <Header>
-        Hi. I'm Tyler.
-        <br />
-        I'm a{' '}
-        <AnimatedTextContainer>
-          <AnimatedText fadeState={fadeState} color={currentTitleColor}>
-            {currentTitleText}
-          </AnimatedText>
-        </AnimatedTextContainer>{' '}
-        in Silicon Valley.
-      </Header>
+      <StaticQuery
+        query={graphql`
+          query {
+            resume: file(relativePath: { eq: "resume.pdf" }) {
+              publicURL
+            }
+          }
+        `}
+        render={({ resume: { publicURL: resumeLink } }) => (
+          <Container>
+            <Header>
+              Hi. I'm Tyler.
+              <br />
+              I'm a{" "}
+              <AnimatedTextContainer>
+                <AnimatedText fadeState={fadeState} color={currentTitleColor}>
+                  {currentTitleText}
+                </AnimatedText>
+              </AnimatedTextContainer>{" "}
+              in Silicon Valley.
+            </Header>
+            <ResumeLink>
+              Don't have time to browse? Feel free to{" "}
+              <a target="_blank" href={resumeLink}>
+                download my resume
+              </a>{" "}
+              instead.
+            </ResumeLink>
+          </Container>
+        )}
+      />
     )
   }
 }

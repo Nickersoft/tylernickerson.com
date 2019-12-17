@@ -1,12 +1,13 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from "react"
 
-import { get, map } from 'lodash'
-import { Link, graphql } from 'gatsby'
+import { get, map } from "lodash"
+import { Link, graphql } from "gatsby"
 
-import styled from 'styled-components'
-import Image from 'gatsby-image'
+import styled from "styled-components"
+import Image from "gatsby-image"
+import Helmet from "react-helmet"
 
-import { Colors, Keyframes, breakpoint } from '@site/util'
+import { Colors, Keyframes, breakpoint } from "@site/util"
 
 const PortfolioPage = styled.div`
   animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
@@ -80,10 +81,10 @@ const ImageWrapper = styled.div`
   overflow: hidden;
 
   & > div {
-    margin-top: 50%;
+    top: 50%;
     transform: translateY(-50%);
   }
-`;
+`
 
 const PortfolioTitle = styled.span`
   color: ${Colors.gray};
@@ -123,14 +124,18 @@ type Props = {
 
 class PortfolioCollection extends PureComponent<Props> {
   getPortfolioEntry(publication: PublicationType) {
-    const thumbnail = get(publication, 'thumbnail.childImageSharp.fluid')
-    const title = get(publication, 'title', '')
-    const year = get(publication, 'year', '')
-    const path = get(publication, 'path')
+    const thumbnail = get(publication, "thumbnail.childImageSharp.fluid")
+    const title = get(publication, "title", "")
+    const year = get(publication, "year", "")
+    const path = get(publication, "path")
 
     return (
       <Portfolio key={title} to={path}>
-        {thumbnail && <ImageWrapper><Image fluid={thumbnail} /></ImageWrapper>}
+        {thumbnail && (
+          <ImageWrapper>
+            <Image fluid={thumbnail} />
+          </ImageWrapper>
+        )}
         <PortfolioTitle>{title}</PortfolioTitle>
         <PortfolioYear>{year}</PortfolioYear>
       </Portfolio>
@@ -138,21 +143,24 @@ class PortfolioCollection extends PureComponent<Props> {
   }
 
   render() {
-    const edges = get(this.props, 'data.allMarkdownRemark.edges', [])
-    const entries = map(edges, 'node.frontmatter')
+    const edges = get(this.props, "data.allMarkdownRemark.edges", [])
+    const entries = map(edges, "node.frontmatter")
 
     return (
-      <PortfolioPage>
-        <Header>Portfolio</Header>
-        <PortfolioContainer>
-          {entries.map(this.getPortfolioEntry)}
-        </PortfolioContainer>
-      </PortfolioPage>
+      <>
+        <Helmet title="Portfolio | Tyler Nickerson" />
+        <PortfolioPage>
+          <Header>Portfolio</Header>
+          <PortfolioContainer>
+            {entries.map(this.getPortfolioEntry)}
+          </PortfolioContainer>
+        </PortfolioPage>
+      </>
     )
   }
 }
 
-export const query = graphql`
+export const pageQuery = graphql`
   {
     allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/portfolio/" } }) {
       edges {
@@ -164,7 +172,7 @@ export const query = graphql`
             path
             thumbnail {
               childImageSharp {
-                fluid(maxWidth: 800, maxHeight: 1040) {
+                fluid(maxWidth: 800) {
                   base64
                   aspectRatio
                   src

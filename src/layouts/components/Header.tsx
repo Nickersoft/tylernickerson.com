@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from "react"
 
-import { Link as GatsbyLink } from 'gatsby'
-import { get } from 'lodash'
+import { Link as GatsbyLink } from "gatsby"
+import { get } from "lodash"
 
-import styled from 'styled-components'
+import styled from "styled-components"
 
-import { Link } from '@site/models'
-import { Container } from '@site/components'
-import { breakpoint, Colors, Keyframes } from '@site/util'
+import { Link } from "@site/models"
+import { Container } from "@site/components"
+import { breakpoint, Colors, Keyframes } from "@site/util"
 
 type HeaderListProps = {
   percentage: number
@@ -71,7 +71,7 @@ const MobileCloseButton = styled.button`
   `}
 
   &:after {
-    content: '×';
+    content: "×";
     font-size: 3rem;
     color: ${Colors.gray};
     opacity: 0.3;
@@ -105,7 +105,7 @@ const MobileOpenButton = styled.button`
 const HeaderList = styled.ul<HeaderListProps>`
   list-style: none;
   margin: 0;
-  display: ${({ visible }) => (visible ? 'flex' : 'none')};
+  display: ${({ visible }) => (visible ? "flex" : "none")};
   flex-direction: column;
   justify-content: center;
   position: fixed;
@@ -149,7 +149,7 @@ type State = {
 
 class Header extends Component<Props, State> {
   static defaultProps = {
-    siteTitle: '',
+    siteTitle: "",
   }
 
   state = {
@@ -158,7 +158,7 @@ class Header extends Component<Props, State> {
   }
 
   static getDerivedStateFromProps(props: Props, state: State) {
-    const pathname = get(props, 'location.pathname')
+    const pathname = get(props, "location.pathname")
 
     if (pathname !== state.currentLocation) {
       return {
@@ -171,12 +171,12 @@ class Header extends Component<Props, State> {
   }
 
   links = [
-    Link('Home', ''),
-    Link('Experience', 'experience'),
-    Link('Projects', 'projects'),
-    Link('Portfolio', 'portfolio'),
-    Link('Publications', 'publications'),
-    Link('Contact', 'contact'),
+    Link("Home", ""),
+    Link("Experience", "experience"),
+    Link("Projects", "projects"),
+    Link("Portfolio", "portfolio"),
+    Link("Publications", "publications"),
+    Link("Contact", "contact"),
   ]
 
   openMobileMenu() {
@@ -199,7 +199,7 @@ class Header extends Component<Props, State> {
 
     let navMatch = this.links.findIndex(
       ({ location: linkLoc }) =>
-        location.pathname.includes(linkLoc.split('/')[0]) &&
+        location.pathname.includes(linkLoc.split("/")[0]) &&
         linkLoc.trim().length > 0
     )
 

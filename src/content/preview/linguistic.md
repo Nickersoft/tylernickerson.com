@@ -1,10 +1,10 @@
 ---
-title: 'Linguistic'
-id: 'linguistic'
-duration: 'May 2015 – Present'
-website: 'https://golinguistic.com'
-tagline: 'A New Era of Language Learning'
-path: '/projects/linguistic'
+title: "Linguistic"
+id: "linguistic"
+duration: "May 2015 – Present"
+website: "https://golinguistic.com"
+tagline: "A New Era of Language Learning"
+link: "/projects/linguistic"
 ---
 
 Linguistic is a conversation-driven language learning platform. It is the first platform of its kind to leverage curated interactions with real native speakers and NLP to help users learn a language.

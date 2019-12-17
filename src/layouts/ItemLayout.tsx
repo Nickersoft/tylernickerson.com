@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from "react"
 
-import styled from 'styled-components'
+import styled from "styled-components"
 
-import { breakpoint } from '@site/util'
+import { breakpoint } from "@site/util"
 
-import ItemSideBar from './components/ItemSideBar'
+import ItemSideBar from "./components/ItemSideBar"
 
 const ItemPage = styled.div`
   display: flex;

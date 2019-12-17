@@ -1,12 +1,12 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from "react"
 
-import { Link } from 'gatsby'
-import { get, findIndex } from 'lodash'
+import { Link } from "gatsby"
+import { get, findIndex } from "lodash"
 
-import styled from 'styled-components'
+import styled from "styled-components"
 
-import { Icon } from '@site/components'
-import { breakpoint } from '@site/util'
+import { Icon } from "@site/components"
+import { breakpoint } from "@site/util"
 
 type SideNavProps = {
   activeIndex: number
@@ -31,7 +31,7 @@ const SideNav = styled.nav<SideNavProps>`
   `}
 
   &:after {
-    content: '\u25b6';
+    content: "\u25b6";
     color: #bbb;
     font-size: 24px;
     position: absolute;
@@ -81,7 +81,7 @@ class ItemSideBar extends PureComponent<Props> {
 
     return (
       <Link key={path} to={path} style={{ opacity }}>
-        <NavIcon depressed={active} size={64} name={get(data, 'icon', '')} />
+        <NavIcon depressed={active} size={64} name={get(data, "icon", "")} />
       </Link>
     )
   }

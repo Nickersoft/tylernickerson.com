@@ -1,10 +1,10 @@
 ---
-title: 'Push'
-id: 'push'
-duration: 'May 2015 – Present'
-website: 'https://pushjs.org'
-tagline: 'The Most Versatile Notifications Framework'
-path: '/projects/linguistic'
+title: "Push"
+id: "push"
+duration: "May 2015 – Present"
+website: "https://pushjs.org"
+tagline: "The Most Versatile Notifications Framework"
+link: "/projects/push"
 ---
 
 Push (or PushJS) is a small library for sending desktop push notifications using client-side JavaScript using a streamlined API.

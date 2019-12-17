@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from "react"
 
-import styled from 'styled-components'
+import styled from "styled-components"
 
-import { Icon } from '@site/components'
-import { breakpoint } from '@site/util'
+import { Icon } from "@site/components"
+import { breakpoint } from "@site/util"
 
 type Props = {
   selectedIcon: string
@@ -46,13 +46,8 @@ class HomepageIconGrid extends Component<Props> {
     const { selectedIcon } = this.props
 
     return (
-      <RowIconLink href={`#${name}`}>
-        <RowIcon
-          depressed={selectedIcon === name}
-          size={96}
-          name={name}
-          key={name}
-        />
+      <RowIconLink href={`#${name}`} key={name}>
+        <RowIcon depressed={selectedIcon === name} size={96} name={name} />
       </RowIconLink>
     )
   }
@@ -62,9 +57,9 @@ class HomepageIconGrid extends Component<Props> {
 
     return (
       <Grid>
-        <Row>{['datql', 'edart', 'linguistic'].map(getIcon)}</Row>
-        <Row>{['odict', 'push'].map(getIcon)}</Row>
-        <Row>{['fission'].map(getIcon)}</Row>
+        <Row>{["datql", "edart", "linguistic"].map(getIcon)}</Row>
+        <Row>{["odict", "push"].map(getIcon)}</Row>
+        <Row>{["fission"].map(getIcon)}</Row>
       </Grid>
     )
   }

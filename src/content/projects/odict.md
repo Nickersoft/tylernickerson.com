@@ -1,22 +1,74 @@
 ---
-title: 'ODict'
-path: '/projects/odict'
-sub: '2017 –'
-icon: 'odict'
-duration: 'July 2017 – Present'
-website: 'https://github.com/odict/odict'
-status: 'Active'
-stack: 'C++, FlatBuffers, Snappy, Lucy'
+title: "ODict"
+path: "/projects/odict"
+sub: "2017 –"
+icon: "odict"
+duration: "July 2017 – Present"
+website: "https://github.com/odict/odict"
+status: "Active"
+stack: "C++, FlatBuffers, Snappy, Lucy"
 ---
 
-### Title Goes Here
+### Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pellentesque sem vel urna suscipit luctus. Sed vel nunc ante. Donec eu elementum sapien, mollis placerat libero. In a ante neque. Vivamus nibh neque, vulputate in urna sed, hendrerit luctus diam. Donec convallis, sapien sit amet ornare scelerisque, justo nisl vehicula lectus, vitae commodo justo ex vestibulum purus. Aliquam fermentum enim leo, ac mattis augue accumsan vitae. Maecenas vitae ligula augue. Etiam dapibus purus ultricies lobortis egestas.
+The Open Dictionary Project (ODict) is a tiny dictionary file format written in C++ and powered by a number of Google technologies (for now). Users write dictionaries in a flavor of XML called ODict XML (ODXML), then pass the XML to the `odict` CLI tool, which generates a compiled binary dictionary file. The user can then use the CLI or one of the ODict SDK libraries to retrieve dictionary definitions from the file.
 
-Integer dapibus metus in blandit hendrerit. Aliquam laoreet viverra dolor in commodo. Ut dictum pharetra ligula, tincidunt dapibus erat rutrum in. Etiam congue dignissim ligula, non gravida tellus lacinia at. Donec auctor condimentum velit, et ullamcorper libero pharetra sit amet. Nam nulla nisi, convallis a rutrum non, tincidunt id odio. Ut eu consequat nibh, in consequat nisl. Pellentesque eu ante felis. Morbi sed porttitor dolor, nec semper nisl. Nunc at purus sed metus scelerisque tristique. Etiam id aliquam sapien. Quisque mollis, tortor sit amet viverra ultricies, tortor nulla molestie est, at faucibus lacus nulla ac dui. Quisque id ultricies odio. Morbi et arcu leo. Etiam aliquam justo vel mauris rutrum fringilla.
+While the aim of ODict has always been high-performance, I personally feel more can be done to improve in this area. The definition retrieval time increases with dictionary size, despite using map and index algorithms using O(log _n_) time complexity. More resources need to put into improving performance, but unfortunate I nor other Linguistic / ODict team members have had the time recently.
 
-In risus libero, commodo at commodo id, placerat id nibh. Duis ornare justo et purus ullamcorper dignissim. Aenean ullamcorper dui eu odio tristique, ut eleifend risus placerat. Quisque ut consectetur lorem. Maecenas accumsan pellentesque tortor, at ullamcorper ligula semper ut. Aenean tempor justo non elit semper feugiat. Nam tristique sodales leo. Ut eleifend lacinia nisi, et pellentesque mauris sodales eget. Donec semper felis vel elit vestibulum egestas. Cras enim magna, tempor eu cursus in, dapibus et velit. Praesent vulputate tortor enim, sed mattis risus luctus vitae.
+### Motivation
 
-Duis orci arcu, iaculis vel dictum nec, mattis eu est. Morbi scelerisque a est sit amet posuere. Integer ornare scelerisque lectus non varius. Nunc diam massa, dapibus ac nibh vel, porta mattis neque. Vivamus volutpat vitae diam id volutpat. Ut dignissim, eros semper gravida ultrices, risus velit ultricies diam, ut feugiat mauris nunc eu odio. Praesent pretium leo ut ultricies facilisis. Quisque eu lorem at mauris pellentesque venenatis venenatis non orci. Integer consequat ultricies dignissim.
+While a number of dictionary file formats already exist, we at Linguistic had a problem with _all of them_. The most popular format, Apple Dictionary, is closed-source. Documentation exists on how to create dictionaries, but none exists on how to read them. Other formats, such as StarDict, are open-source but have scarce documentation and fragmented SDK libraries. We actually found through reverse-engineering a few Android dictionary apps that most apps use their own, custom format that no one but the app can read.
 
-Phasellus tempus eros sit amet euismod scelerisque. Nam nibh dui, fermentum quis odio sed, bibendum pulvinar arcu. Etiam id sem sit amet nulla mattis sagittis. Proin quis nulla justo. Fusce in lacinia felis. Sed nec metus tempus, ultricies nibh nec, blandit nisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi dapibus nisl ut lorem fringilla eleifend. Fusce auctor tellus felis, vitae rutrum urna luctus viverra. Curabitur turpis quam, congue vel tortor in, vehicula aliquet orci. Cras euismod ante vel purus euismod imperdiet. Nulla condimentum ante nunc, at semper eros porta nec. Praesent massa purus, iaculis sit amet rhoncus vel, ornare et neque.
+We wanted to build the first dictionary format that was completely open, documented and open-sourced from the ground-up. We wanted all of its support libraries to exist under a single community and make it easy for anyone to use it. ODict also happens to be the first dictionary format that doesn't just return HTML for all of its dictionary entries. Each entry is broken down into its hierarchical components: etymologies, word usages, definition groups, and definitions. ODict returns the definition as a JSON hierarchy, and it is up to the developer to style it appropriately.
+
+### Usage
+
+Let us take a brief example of an ODXML file:
+
+```xml
+<dictionary name="Example Dictionary">
+  <entry term="run">
+    <ety description="Latin root">
+      <usage pos="verb">
+        <group description="A number of verb usages">
+          <definition>(vertebrates) To move swiftly.</definition>
+          <definition>(fluids) To flow.</definition>
+          <definition>(nautical, of a vessel) To sail before the wind, in distinction from reaching or sailing close-hauled.</definition>
+        </group>
+        <definition>(social) To carry out an activity.</definition>
+        <definition>To extend or persist, statically or dynamically, through space or time.</definition>
+        <definition>(transitive) To execute or carry out a plan, procedure or program.</definition>
+      </usage>
+    </ety>
+  </entry>
+</dictionary>
+```
+
+To compile the markup to binary:
+
+```bash
+$ ./odict generate ./example.xml
+```
+
+To read an entry from the compiled dictionary:
+
+```bash
+$ ./odict lookup "run" ./example.odict
+```
+
+### Design
+
+ODict is built on top of [Flatbuffers](https://google.github.io/flatbuffers/), Google's cross-platform serialization library, which allows us to serialize hierarchical dictionary data to binary and write it to file. Flatbuffers was chosen over [ProtoBuf](https://developers.google.com/protocol-buffers/) due to its ability to retrieve data entries from a serialized blob without deserializing it first.
+
+When an ODXML file is compiled, the XML is first traversed with [RapidXML](http://rapidxml.sourceforge.net/) and then compiled to a FlatBuffers data object. The Flatbuffers data is then run through [Snappy](https://github.com/google/snappy), Google's compression library, to prepare the data to be written to disk.
+
+Lastly, the file content is prepared and written. The final bytes appear in the following order:
+
+| Name         | Type          | Size     | Description                                                                                                 |
+| ------------ | ------------- | -------- | ----------------------------------------------------------------------------------------------------------- |
+| Signature    | `CHAR[6]`     | 6        | Signature for the ODict format. Assertions fail if this signature is missing. Should always be `ODICT`.     |
+| Version      | `USHORT`      | 2        | Represents the major version of ODict with which the file was created.                                      |
+| Content-Size | `ULONG`       | 4 or 8   | Size (in bytes) of the compressed content to read. Used in assertions to validate file length.              |
+| Content      | `CONST CHAR*` | Variable | Snappy compressed FlatBuffer object. Must be decompressed and converted to `uint8_t` before it can be used. |
+
+When a dictionary entry is retrieved, the data is first calculated and decompressed using the `Content-Size` value, then retrieved via binary search (by key), resulting in a $O(\text{log }n)$ time complexity. If a fuzzy search is performed, ODict utilizes [Apache Lucene](http://lucene.apache.org/) to index and search the dictionary. These searches perform similarly to the binary-search method.

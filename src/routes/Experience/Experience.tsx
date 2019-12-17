@@ -1,13 +1,14 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from "react"
 
-import { get, filter } from 'lodash'
-import { graphql } from 'gatsby'
+import { get, filter } from "lodash"
+import { graphql } from "gatsby"
 
-import GithubSlugger from 'github-slugger'
+import Helmet from "react-helmet"
+import GithubSlugger from "github-slugger"
 
-import { TextArea, TitledView } from '@site/components'
-import { renderAst } from '@site/util'
-import { Heading } from '@site/models'
+import { TextArea, TitledView } from "@site/components"
+import { renderAst } from "@site/util"
+import { Heading } from "@site/models"
 
 const slugger = new GithubSlugger()
 
@@ -19,15 +20,15 @@ type Props = {
 
 class Experience extends PureComponent<Props> {
   render() {
-    const md = get(this.props, 'data.markdownRemark', {})
-    const ast = get(md, 'htmlAst')
-    const frontmatter = get(md, 'frontmatter', {})
+    const md = get(this.props, "data.markdownRemark", {})
+    const ast = get(md, "htmlAst")
+    const frontmatter = get(md, "frontmatter", {})
 
     const { title, years, position } = frontmatter
 
     slugger.reset()
 
-    const headings: Heading[] = get(md, 'headings', [])
+    const headings: Heading[] = get(md, "headings", [])
     const appropHeaders: Heading[] = filter(headings, { depth: 3 })
     const headerLinks = appropHeaders.map(({ value }) => ({
       name: value,
@@ -35,21 +36,24 @@ class Experience extends PureComponent<Props> {
     }))
 
     return (
-      <TitledView
-        header={title}
-        navItems={headerLinks}
-        subheader={`${position} (${years})`}
-        label="Experience"
-      >
-        <TextArea
-          dangerouslySetInnerHTML={{ __html: ast ? renderAst(ast) : '' }}
-        />
-      </TitledView>
+      <>
+        <Helmet title={`${title} | Experience`} />
+        <TitledView
+          header={title}
+          navItems={headerLinks}
+          subheader={`${position} (${years})`}
+          label="Experience"
+        >
+          <TextArea
+            dangerouslySetInnerHTML={{ __html: ast ? renderAst(ast) : "" }}
+          />
+        </TitledView>
+      </>
     )
   }
 }
 
-export const query = graphql`
+export const pageQuery = graphql`
   query($path: String!) {
     markdownRemark(frontmatter: { path: { eq: $path } }) {
       htmlAst

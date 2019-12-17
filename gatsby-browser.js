@@ -1,3 +1,5 @@
+require("prismjs/themes/prism.css")
+
 exports.onRouteUpdate = ({ location }) => {
   if (location.hash) {
     setTimeout(() => {
@@ -5,7 +7,7 @@ exports.onRouteUpdate = ({ location }) => {
 
       if (target) {
         target.scrollIntoView({
-          behavior: 'smooth',
+          behavior: "smooth",
         })
       }
     }, 0)

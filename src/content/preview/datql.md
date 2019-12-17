@@ -1,10 +1,10 @@
 ---
-title: 'DatQL'
-id: 'datql'
-duration: 'October 2017 – Present'
-website: 'https://github.com/Linguistic/dql.js'
-tagline: 'Data Query Language'
-path: '/projects/datql'
+title: "DatQL"
+id: "datql"
+duration: "October 2017 – Present"
+website: "https://github.com/Linguistic/dql.js"
+tagline: "Data Query Language"
+link: "/projects/datql"
 ---
 
 DatQL (or DQL) is a GraphQL-inspired markup language that transpiles to vanilla SQL. By abstracting platform-specific SQL queries to a common syntax, the underlying DB can be replaced at any time.
