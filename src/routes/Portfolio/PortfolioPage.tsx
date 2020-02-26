@@ -111,15 +111,7 @@ export const pageQuery = graphql`
         link
         publisher
         thumbnail {
-          childImageSharp {
-            fluid(maxWidth: 800, maxHeight: 1040) {
-              base64
-              aspectRatio
-              src
-              srcSet
-              sizes
-            }
-          }
+          publicURL
         }
       }
     }

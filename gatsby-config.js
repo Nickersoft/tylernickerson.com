@@ -14,6 +14,33 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-plugin-sharp`,
+      options: {
+        quality: 90,
+      },
+    },
+    "gatsby-transformer-sharp",
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [
+          "gatsby-remark-prismjs",
+          `gatsby-remark-katex`,
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 800,
+              quality: 90,
+              wrapperStyle:
+                "text-align: center; max-width: 600px; margin: 0 auto 2rem;",
+              showCaptions: true,
+            },
+          },
+        ],
+      },
+    },
+
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `icons`,
@@ -35,36 +62,10 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-sharp`,
-      options: {
-        quality: 90,
-      },
-    },
-    "gatsby-transformer-sharp",
-    {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/src/content`,
         name: "markdown",
-      },
-    },
-    {
-      resolve: `gatsby-transformer-remark`,
-      options: {
-        plugins: [
-          "gatsby-remark-prismjs",
-          `gatsby-remark-katex`,
-          {
-            resolve: `gatsby-remark-images`,
-            options: {
-              maxWidth: 800,
-              quality: 90,
-              wrapperStyle:
-                "text-align: center; max-width: 600px; margin: 0 auto 2rem;",
-              showCaptions: true,
-            },
-          },
-        ],
       },
     },
     {

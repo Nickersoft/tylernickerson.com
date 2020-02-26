@@ -36,12 +36,15 @@ const HeaderLink = styled(GatsbyLink)<HeaderLinkProps>`
   ${breakpoint.desktop`
     animation: none;
     font-size: 0.8rem;
+    margin: 0;
+    padding: 1rem 0;
   `}
 `
 
 const HeaderItem = styled.li`
   display: inline-block;
   text-align: center;
+  margin: 0;
 
   ${breakpoint.desktop`
     flex: 1;
@@ -52,7 +55,8 @@ const HeaderContainer = styled(Container)`
   padding: 0;
 
   ${breakpoint.desktop`
-    padding: 3rem 0;
+    padding: 2rem 0 3rem;
+    width: 95%;
   `}
 `
 
