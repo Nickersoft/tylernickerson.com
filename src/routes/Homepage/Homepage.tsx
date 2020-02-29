@@ -48,6 +48,7 @@ class Homepage extends Component<Props> {
 
     return (
       <ProjectPreview
+        key={id}
         title={title}
         link={link}
         id={id}
