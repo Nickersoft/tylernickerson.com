@@ -30,7 +30,8 @@ const Year = styled.span`
   margin: 0;
   opacity: 0.5;
   font-weight: 400;
-  font-size: 2rem;
+  font-size: 1.5rem;
+  line-height: 1.5em;
   display: block;
   text-align: center;
   color: ${Colors.gray};
