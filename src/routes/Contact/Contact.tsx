@@ -11,7 +11,7 @@ import {
   faLinkedinIn,
 } from "@fortawesome/free-brands-svg-icons"
 
-import Helmet from "react-helmet"
+import { Helmet } from "react-helmet"
 import Image from "gatsby-image"
 import styled from "styled-components"
 

@@ -1,8 +1,8 @@
 ---
-title: "Linguistic: Brand"
-path: "/portfolio/linguistic-brand"
+title: "EntryLevel"
+path: "/portfolio/entrylevel"
 year: "2020"
-sub: "Designing the Linguistic Brand"
+sub: "Designing A Job Site for Career Changers"
 thumbnail: "../../images/portfolio/linguistic/banner.png"
 ---
 

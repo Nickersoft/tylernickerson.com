@@ -3,7 +3,7 @@ import React, { PureComponent } from "react"
 import { get } from "lodash"
 import { graphql } from "gatsby"
 
-import Helmet from "react-helmet"
+import { Helmet } from "react-helmet"
 import styled from "styled-components"
 import Image from "gatsby-image"
 

@@ -14,9 +14,9 @@ stack: "JavaScript"
 
 Push (also PushJS or Push.js), is a lightweight [shim](<https://en.wikipedia.org/wiki/Shim_(computing)>) around the [JavaScript desktop notifications API](https://developer.mozilla.org/en-US/docs/Web/API/notification) that allows developers to easily send push notifications to your desktop. The only caveat, however, is your browser window must be open in order for this to occur (or a ServiceWorker must be registered and the browser must be running in the background).
 
-Push was developed in 2015 for [Linguistic](/projects/linguistic), back when Linguistic was nothing more than a browser-based, chatroulette website for language learners. The library didn't gain a widespread attention until 2016, when Push was uploaded to [Hacker News](https://news.ycombinator.com/item?id=11715918). Seemingly overnight, the library garnered a mass following, resulting in over [500 upvotes on ProductHunt](https://www.producthunt.com/posts/push-js), [7,700 GitHub stars](https://github.com/Nickersoft/push/stargazers), 350,000+ NPM downloads, and a [plethora of web articles](https://github.com/Nickersoft/push.js/wiki/Resources) written about it.
+Push was developed in 2015 for [Linguistic](/projects/linguistic), back when Linguistic was nothing more than a browser-based, chatroulette website for language learners. The library didn't gain a widespread attention until 2016, when Push was uploaded to [Hacker News](https://news.ycombinator.com/item?id=11715918). Seemingly overnight, the library garnered a mass following, resulting in over [500 upvotes on ProductHunt](https://www.producthunt.com/posts/push-js), [8,200 GitHub stars](https://github.com/Nickersoft/push/stargazers), 1.2 million NPM downloads, and a [plethora of web articles](https://github.com/Nickersoft/push.js/wiki/Resources) written about it.
 
-Since Push's release, I've written a tutorial for [Net Magazine](https://www.creativebloq.com/net-magazine) as well as a [personal introduction](https://blog.tylernickerson.com/push-js-an-introduction-49291ac986e8) regarding it. Version 1.0 of the library was released in July of 2017. Today, the repository is co-maintained by myself and Devesh Sati or [PushOwl](https://pushowl.com/), an Indian platform for e-commerce push notifications.
+Since Push's release, I've written a tutorial for [Net Magazine](https://www.creativebloq.com/net-magazine) as well as a [personal introduction](https://blog.tylernickerson.com/push-js-an-introduction-49291ac986e8) regarding it. Version 1.0 of the library was released in July of 2017. Today, the repository is co-maintained by myself and Devesh Sati of [PushOwl](https://pushowl.com/), an Indian platform for e-commerce push notifications.
 
 ### Motivation
 
@@ -28,7 +28,7 @@ function showNotification() {
     body: "Click Me",
   })
 
-  notification.onclick = function() {
+  notification.onclick = function () {
     window.open("http://google.com/")
   }
 }
@@ -38,7 +38,7 @@ if (!("Notification" in window)) {
 } else if (Notification.permission === "granted") {
   showNotification()
 } else if (Notification.permission !== "denied") {
-  Notification.requestPermission(function(permission) {
+  Notification.requestPermission(function (permission) {
     if (permission === "granted") {
       showNotification()
     }
@@ -51,7 +51,7 @@ Note that the above does not take legacy browsers into consideration. A more com
 ```javascript
 Push.create("This is a clickable notification", {
   body: "Click Me",
-  onClick: function() {
+  onClick: function () {
     window.open("http://google.com/")
   },
 })

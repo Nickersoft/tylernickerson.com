@@ -5,7 +5,7 @@ import { Link, graphql } from "gatsby"
 
 import styled from "styled-components"
 import Image from "gatsby-image"
-import Helmet from "react-helmet"
+import { Helmet } from "react-helmet"
 
 import { Colors, Keyframes, breakpoint } from "@site/util"
 
@@ -130,13 +130,13 @@ class Publications extends PureComponent<Props> {
   render() {
     const edges = get(this.props, "data.allMarkdownRemark.edges", [])
     const entries = map(edges, "node.frontmatter")
-
+    
     return (
       <PublicationsPage>
         <Helmet title="Publications | Tyler Nickerson" />
         <Header>Publications</Header>
         <PublicationsContainer>
-          {entries.map(this.getPublicationEntry)}
+          {entries.sort(({ year:y1 }, {year:y2}) => parseInt(y1)>parseInt(y2) ? -1 : 1 ).map(this.getPublicationEntry)}
         </PublicationsContainer>
       </PublicationsPage>
     )

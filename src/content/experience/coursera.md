@@ -1,9 +1,9 @@
 ---
-title: "Udacity"
-path: "/experience/udacity"
-position: "Software Engineer, Global Growth"
-years: "2018"
-icon: "udacity"
+title: "Coursera"
+path: "/experience/coursera"
+position: "Software Engineer, Learning Experience"
+years: "2019 - "
+icon: "coursera"
 ---
 
 While at Udacity, I worked alongside the Global Growth Engineering team to build and maintain the company's international marketing websites. Collaborating with the design and marketing teams, I spearheaded development on a number of promotional campaigns, such as the Built On Blockchain campaign, and page launches, including the 2018 redesign of the U.S. homepage and course catalog.

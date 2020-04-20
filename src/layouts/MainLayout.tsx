@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import Helmet from 'react-helmet'
-import { StaticQuery, graphql } from 'gatsby'
+import React, { Component } from "react"
+import { Helmet } from "react-helmet"
+import { StaticQuery, graphql } from "gatsby"
 
-import { Container } from '@site/components'
+import { Container } from "@site/components"
 
-import Header from './components/Header'
-import Footer from './components/Footer'
+import Header from "./components/Header"
+import Footer from "./components/Footer"
 
-import './layout.css'
+import "./layout.css"
 
 type Props = {
   children: JSX.Element | JSX.Element[]
@@ -34,8 +34,8 @@ class Layout extends Component<Props> {
             <Helmet
               title={data.site.siteMetadata.title}
               meta={[
-                { name: 'description', content: 'Sample' },
-                { name: 'keywords', content: 'sample, something' },
+                { name: "description", content: "Sample" },
+                { name: "keywords", content: "sample, something" },
               ]}
             >
               <html lang="en" />

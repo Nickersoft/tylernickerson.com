@@ -5,7 +5,7 @@ import { Link, graphql } from "gatsby"
 
 import styled from "styled-components"
 import Image from "gatsby-image"
-import Helmet from "react-helmet"
+import { Helmet } from "react-helmet"
 
 import { Colors, Keyframes, breakpoint } from "@site/util"
 
@@ -25,29 +25,26 @@ const Header = styled.h1`
 `
 
 const PortfolioContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-gap: 1rem;
   width: 100%;
-
-  ${breakpoint.desktop`
-    justify-content: flex-start;
-  `}
+  justify-items: center;
+  align-content: center;
 `
 
 const Portfolio = styled(Link)`
   width: 100%;
   cursor: pointer;
+  text-align: center;
   display: block;
+
   max-width: 20rem;
   text-decoration: none;
-  margin: 0 1rem 1rem;
+  /* margin: 0 1rem 1rem; */
 
   ${breakpoint.desktop`
     width: 12rem;
-    margin-left: 4rem;
 
     &:first-of-type {
       margin-left: 0;
@@ -152,7 +149,11 @@ class PortfolioCollection extends PureComponent<Props> {
         <PortfolioPage>
           <Header>Portfolio</Header>
           <PortfolioContainer>
-            {entries.map(this.getPortfolioEntry)}
+            {entries
+              .sort(({ year: y1 }, { year: y2 }) =>
+                parseInt(y1) > parseInt(y2) ? -1 : 1
+              )
+              .map(this.getPortfolioEntry)}
           </PortfolioContainer>
         </PortfolioPage>
       </>
