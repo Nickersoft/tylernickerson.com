@@ -54,7 +54,7 @@ type AnimatedTextState = {
 
 const AnimatedTextContainer = styled.span`
   display: inline-block;
-  width: 11.25rem;
+  width: 11.15rem;
   position: relative;
 
   &:after {
@@ -199,7 +199,7 @@ class HomepageAnimatedHeader extends Component<Props, State> {
         render={({ resume: { publicURL: resumeLink } }) => (
           <Container>
             <Header>
-              Hi. I'm Tyler.
+              Hi there! {`\u{1F44B}`} I'm Tyler.
               <br />
               I'm a{" "}
               <AnimatedTextContainer>

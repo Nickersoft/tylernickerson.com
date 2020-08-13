@@ -12,8 +12,10 @@ One of the major cornerstones of language exchange is the ability to correct you
 
 ## Research
 
+<div style="display: flex; flex-direction: row; height: 100px; width: 100%;">
   <img src="../../images/portfolio/linguistic/corrections-mylanguageexchange.png"/>
-    <img src="../../images/portfolio/linguistic/corrections-mylanguageexchange.png"/>
+  <img src="../../images/portfolio/linguistic/corrections-hellotalk.jpg"/>
+</div>
 
 ## Wireframes
 
