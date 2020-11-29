@@ -11,7 +11,6 @@ import GithubSlugger from "github-slugger"
 import { TextArea, Testimonial, TitledView } from "@site/components"
 import { Brands, breakpoint, Colors, renderAst } from "@site/util"
 import { Heading } from "@site/models"
-import ExperienceTestimonials from "./ExperienceTestimonials"
 
 const slugger = new GithubSlugger()
 
@@ -99,72 +98,41 @@ const TestimonialsHeader = styled.div`
   }
 `
 
-const Experience: React.FunctionComponent<PageProps<Markdown>> = ({ data }) => {
-  const { headings, htmlAst: ast, frontmatter } = data?.markdownRemark ?? {}
-
-  const { title, icon, years, testimonials, position } = frontmatter ?? {
-    title: "",
-    years: "",
-    position: "",
-    icon: "",
-    testimonials: [],
-  }
-
-  slugger.reset()
-
-  const appropHeaders: Heading[] = filter(headings, { depth: 3 })
-  const headerLinks = appropHeaders.map(({ value }) => ({
-    name: value,
-    location: `#${slugger.slug(value)}`,
-  }))
-
-  return (
-    <>
-      <Helmet title={`${title} | Experience`} />
-      <TitledView
-        header={title}
-        navItems={headerLinks}
-        subheader={`${position} (${years})`}
-        label="Experience"
-      >
-        <TextArea
-          dangerouslySetInnerHTML={{ __html: ast ? renderAst(ast) : "" }}
-        />
-        {testimonials?.length > 0 && (
-          <ExperienceTestimonials
-            testimonials={testimonials.map((t) => ({
-              ...t,
-              color: Brands?.[icon]?.[1] ?? Colors.blue,
-            }))}
-          />
-        )}
-      </TitledView>
-    </>
-  )
+interface Props {
+  testimonials: {
+    color: string;
+    name: string
+    title: string
+    image: string
+    text: string
+  }[]
 }
 
-export const pageQuery = graphql`
-  query($path: String!) {
-    markdownRemark(frontmatter: { path: { eq: $path } }) {
-      htmlAst
-      headings {
-        depth
-        value
-      }
-      frontmatter {
-        title
-        years
-        icon
-        position
-        testimonials {
-          name
-          title
-          image
-          text
-        }
-      }
-    }
-  }
-`
+const ExperienceTestimonials: React.FunctionComponent<Props> = ({
+  testimonials
+}) => (
+  <>
+    <TestimonialsHeader>
+      <span>Testimonials</span>
+    </TestimonialsHeader>
+    <TestimonialOverlay>
+      <TestimonialsContainer>
+        <Testimonials
+          justifyContent={testimonials?.length > 1 ? "flex-start" : "center"}
+        >
+          {testimonials?.map(({ name, title, color, image, text }) => (
+            <Testimonial
+              name={name}
+              color={color}
+              title={title}
+              image={image}
+              text={text}
+            />
+          ))}
+        </Testimonials>
+      </TestimonialsContainer>
+    </TestimonialOverlay>
+  </>
+)
 
-export default Experience
+export default ExperienceTestimonials

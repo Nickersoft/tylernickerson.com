@@ -10,7 +10,7 @@ const MainContent = styled.div`
   padding: 0 2.5rem;
   animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
   margin-top: 1rem;
-  overflow: hidden;
+  width: 100%;
 
   ${breakpoint.desktop`
     margin: 0;
@@ -62,8 +62,7 @@ const ContentHeaderYear = styled.span`
   line-height: 1.5em;
   margin: 0;
   padding: 0;
-  color: ${Colors.gray};
-  opacity: 0.4;
+  color: ${Colors.mediumGray};
 
   ${breakpoint.desktop`
     font-size: 2rem;
@@ -108,7 +107,7 @@ const ContentHeaderText = styled.div`
 `
 
 type Props = {
-  children: JSX.Element | JSX.Element[]
+  children: React.ReactNode | React.ReactNode[];
   label: string
   header: string
   navItems: LinkModel[]

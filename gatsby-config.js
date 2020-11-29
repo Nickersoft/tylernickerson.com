@@ -16,7 +16,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-sharp`,
       options: {
-        quality: 90,
+        defaultQuality: 90,
       },
     },
     "gatsby-transformer-sharp",
@@ -31,8 +31,12 @@ module.exports = {
             options: {
               maxWidth: 800,
               quality: 90,
-              wrapperStyle:
-                "text-align: center; max-width: 600px; margin: 0 auto 2rem;",
+              wrapperStyle: () => `
+                text-align: center;
+                max-width: 600px;
+                margin: 0 auto 2rem;
+                line-height: 3rem;
+              `,
               showCaptions: true,
             },
           },

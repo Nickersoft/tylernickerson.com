@@ -20,6 +20,7 @@ const SideNav = styled.nav<SideNavProps>`
   padding: 0 2.5rem 2.5rem;
   width: 100%;
   overflow: scroll;
+  flex-shrink: 0;
 
   ${breakpoint.desktop`
     flex-direction: column;
