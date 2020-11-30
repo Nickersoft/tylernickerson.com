@@ -2,23 +2,9 @@
 title: "Linguistic: Corrections"
 path: "/portfolio/linguistic-corrections"
 year: "2020"
-sub: "Aggregating User Corrections in Linguistic"
-thumbnail: "../../images/portfolio/linguistic/banner.png"
+sub: "Designing the Linguistic Brand"
+thumbnail: "../../images/portfolio/linguistic-corrections.png"
+link: https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FlnxQzI9IL48bMwHuIL2xIV%2FPortfolio%3Fnode-id%3D26%253A91%26viewport%3D50%252C-537%252C0.2958114445209503%26scaling%3Dscale-down-width
 ---
 
-## Background
-
-One of the major cornerstones of language exchange is the ability to correct your language partner if they make a grammatical or spelling error. While some apps support inline corrections, Linguistic aimed to actively aggregate corrections and store them in a single, unified location for users to reference whenever they want. The corrections experience should be social in nature and give users the ability to transform corrections into community forum posts, where other users are rewarded for commenting and offering insight on what was said incorrectly if the user does not understand their partner's explanation. This means that the encompassing design would need to consist of several flows: correction submission, reception, and discovery.
-
-## Research
-
-<div style="display: flex; flex-direction: row; height: 100px; width: 100%;">
-  <img src="../../images/portfolio/linguistic/corrections-mylanguageexchange.png"/>
-  <img src="../../images/portfolio/linguistic/corrections-hellotalk.jpg"/>
-</div>
-
-## Wireframes
-
-## Hi-Fi Explorations
-
-## Final Product
+As part of Linguistic's iOS rebuild, we needed to reimplement our corrections flow. This gave me a nice opportunity to take a step back and look at the best way we could possibly redesign such a feature while we were at it.

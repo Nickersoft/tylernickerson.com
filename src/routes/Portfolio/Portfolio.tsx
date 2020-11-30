@@ -74,13 +74,7 @@ const Portfolio = styled(Link)`
 `
 
 const ImageWrapper = styled.div`
-  height: 8rem;
   overflow: hidden;
-
-  & > div {
-    top: 50%;
-    transform: translateY(-50%);
-  }
 `
 
 const PortfolioTitle = styled.span`

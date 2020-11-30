@@ -105,10 +105,11 @@ class Contact extends Component {
     return (
       <ContactPage>
         <Helmet title="Contact | Tyler Nickerson" />
+        {/* @ts-ignore */}
         {inventions && <InventionsImage fluid={inventions} />}
         <IconContainer>{this.contactIcons.map(getIcon)}</IconContainer>
         <EmailText index={this.contactIcons.length - 1}>
-          Or just <a href="mailto:tyler@tylernickerson.com">email me</a>
+          Or just <a href="mailto:nickersoft@gmail.com">email me</a>
         </EmailText>
       </ContactPage>
     )
