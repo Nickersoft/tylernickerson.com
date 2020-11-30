@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons"
 
 import { Helmet } from "react-helmet"
-import Image from "gatsby-image"
+import Image, { GatsbyImageProps } from "gatsby-image"
 import styled from "styled-components"
 
 import { Keyframes, Colors } from "@site/util"
@@ -29,7 +29,7 @@ const ContactPage = styled.div`
   align-items: center;
 `
 
-const InventionsImage = styled(Image)`
+const InventionsImage = styled(Image)<GatsbyImageProps>`
   width: 25rem;
   border-radius: 4px;
   box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.1);
@@ -105,7 +105,6 @@ class Contact extends Component {
     return (
       <ContactPage>
         <Helmet title="Contact | Tyler Nickerson" />
-        {/* @ts-ignore */}
         {inventions && <InventionsImage fluid={inventions} />}
         <IconContainer>{this.contactIcons.map(getIcon)}</IconContainer>
         <EmailText index={this.contactIcons.length - 1}>

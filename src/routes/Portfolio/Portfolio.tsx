@@ -44,7 +44,7 @@ const Portfolio = styled(Link)`
   /* margin: 0 1rem 1rem; */
 
   ${breakpoint.desktop`
-    width: 12rem;
+    width: 16rem;
 
     &:first-of-type {
       margin-left: 0;
