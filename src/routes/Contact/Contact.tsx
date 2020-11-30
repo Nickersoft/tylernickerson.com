@@ -15,7 +15,7 @@ import { Helmet } from "react-helmet"
 import Image, { GatsbyImageProps } from "gatsby-image"
 import styled from "styled-components"
 
-import { Keyframes, Colors } from "@site/util"
+import { Keyframes, Colors, breakpoint } from "@site/util"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
 
 type AnimationProps = {
@@ -27,10 +27,16 @@ const ContactPage = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 2rem;
+
+  ${breakpoint.tablet`
+    padding: 0;
+  `}
 `
 
 const InventionsImage = styled(Image)<GatsbyImageProps>`
-  width: 25rem;
+  max-width: 25rem;
+  width: 100%;
   border-radius: 4px;
   box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.1);
   animation: ${Keyframes.fadeInUp} 0.5s ease-in-out;
