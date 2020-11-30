@@ -29,13 +29,17 @@ class Layout extends Component<Props> {
             }
           }
         `}
-        render={data => (
+        render={(data) => (
           <>
             <Helmet
               title={data.site.siteMetadata.title}
               meta={[
-                { name: "description", content: "Sample" },
-                { name: "keywords", content: "sample, something" },
+                { name: "description", content: "Designer & Developer" },
+                {
+                  name: "keywords",
+                  content:
+                    "tyler,nickerson,nickersoft,design,music,software,coding,frontend,web",
+                },
               ]}
             >
               <html lang="en" />
