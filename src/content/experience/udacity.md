@@ -12,7 +12,7 @@ testimonials:
   - name: Georges Boris
     title: Tech Lead
     image: "georges.jpg"
-    text: "Tyler is an amazing software engineer - with sharp and updated tech skills, a clinic eye for design and UX, and always puts business needs first when developing a new feature. We were on the forefront of the growth team in this hyper growth company and he was an essential part in making that team work even in such demanding circumstances."
+    text: "Tyler is an amazing software engineer - with sharp tech skills, a clinic eye for design and UX, and always puts business needs first when developing a new feature. We were on the forefront of the growth team in this hyper growth company and he was an essential part in making that team work."
   - name: Rehan Alam
     title: Software Engineer
     image: "rehan.jpg"

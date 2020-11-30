@@ -1,70 +1,51 @@
 import React from "react"
 import styled from "styled-components"
 
-import { filter } from "lodash"
-import { PageProps, graphql } from "gatsby"
-
-import { Helmet } from "react-helmet"
-
-import GithubSlugger from "github-slugger"
-
-import { TextArea, Testimonial, TitledView } from "@site/components"
-import { Brands, breakpoint, Colors, renderAst } from "@site/util"
-import { Heading } from "@site/models"
-
-const slugger = new GithubSlugger()
-
-type Markdown = {
-  markdownRemark: {
-    frontmatter: {
-      title: string
-      years: string
-      position: string
-      icon: string
-      testimonials: {
-        name: string
-        title: string
-        image: string
-        text: string
-      }[]
-    }
-    headings: Heading[]
-    htmlAst: object
-  }
-}
+import { Testimonial } from "@site/components"
+import { breakpoint, Colors } from "@site/util"
 
 const TestimonialsContainer = styled.div`
-  overflow-y: scroll;
-  width: calc(100% + 2rem);
-  padding: 2.5rem;
-  margin: 0 -2.5rem;
+  overflow: scroll;
+  width: 100%;
+  padding: 2.5rem 1rem;
+  margin: 0;
   position: relative;
+
+  ${breakpoint.tablet`
+    margin: 0 -2.5rem;
+    width: calc(100% + 2rem);
+    padding: 2.5rem;
+  `}
 `
+
 const TestimonialOverlay = styled.div`
   position: relative;
   overflow: visible;
   display: block;
 
-  &:before {
-    position: absolute;
-    content: "";
-    width: 2.5rem;
-    height: 100%;
-    display: block;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0), #fbfbfb);
-    right: 0;
-    top: 0;
-    z-index: 100;
-  }
+  ${breakpoint.tablet`
+    &:before {
+      position: absolute;
+      content: "";
+      width: 2.5rem;
+      height: 100%;
+      display: block;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0), #fbfbfb);
+      right: 0;
+      top: 0;
+      z-index: 100;
+    }  
+  `}
 `
 
 const Testimonials = styled.div<{ justifyContent: string }>`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: start;
   position: relative;
 
   ${breakpoint.tablet`
+    flex-direction: row;
     justify-content: ${({ justifyContent }: { justifyContent: string }) =>
       justifyContent};
   `}
@@ -100,7 +81,7 @@ const TestimonialsHeader = styled.div`
 
 interface Props {
   testimonials: {
-    color: string;
+    color: string
     name: string
     title: string
     image: string
@@ -109,7 +90,7 @@ interface Props {
 }
 
 const ExperienceTestimonials: React.FunctionComponent<Props> = ({
-  testimonials
+  testimonials,
 }) => (
   <>
     <TestimonialsHeader>
