@@ -1,8 +1,7 @@
 ---
 title: "Linguistic: Corrections"
 path: "/portfolio/linguistic-corrections"
-year: "2020"
-sub: "Designing the Linguistic Brand"
+year: "2019"
 thumbnail: "../../images/portfolio/linguistic-corrections.png"
 link: https://www.figma.com/proto/lnxQzI9IL48bMwHuIL2xIV/Portfolio?embed_host=share&kind=&node-id=46%3A43&scaling=scale-down-width&viewport=50%2C-537%2C0.2958114445209503
 ---
