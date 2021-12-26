@@ -1,3 +1,3 @@
 export interface Location {
-  pathname: string
+  pathname: string;
 }

@@ -1,3 +1,3 @@
-export * from './Link'
-export * from './Location'
-export * from './Heading'
+export * from "./Link";
+export * from "./Location";
+export * from "./Heading";

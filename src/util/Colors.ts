@@ -9,7 +9,7 @@ export const Colors = {
   green: "#42BB4B",
   teal: "#54C8B7",
   darkTeal: "#38BEA0",
-}
+};
 
 export const Brands: { [key: string]: string[] } = {
   linguistic: ["#FFD871", "#E9871C"],
@@ -22,4 +22,4 @@ export const Brands: { [key: string]: string[] } = {
   coursera: ["#5BBEF8", "#188CD0"],
   edx: ["#fff", "#fefefe"],
   kayak: ["#ED7232", "#EC655E"],
-}
+};

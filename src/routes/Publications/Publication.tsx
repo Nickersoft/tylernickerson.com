@@ -1,30 +1,30 @@
-import React, { PureComponent } from "react"
-import Image from "gatsby-image"
+import React, { PureComponent } from "react";
 
-import { get } from "lodash"
-import { graphql } from "gatsby"
+import { GatsbyImage } from "gatsby-plugin-image";
+import { get } from "lodash";
+import { graphql } from "gatsby";
 
-import styled from "styled-components"
+import styled from "styled-components";
 
-import { Colors, Keyframes, breakpoint } from "@site/util"
-import { BackButton } from "@site/components"
-import { Helmet } from "react-helmet"
+import { Colors, Keyframes, breakpoint } from "@site/util";
+import { BackButton } from "@site/components";
+import { Helmet } from "react-helmet";
 
 type Props = {
   data: {
     backImage: {
-      publicURL: string
-    }
-  }
+      publicURL: string;
+    };
+  };
   pageContext: {
     publication: {
-      title: string
-      sub: string
-      html: string
-      link: string
-    }
-  }
-}
+      title: string;
+      sub: string;
+      html: string;
+      link: string;
+    };
+  };
+};
 
 const HeaderTitle = styled.h1`
   font-size: 2.5rem;
@@ -36,7 +36,7 @@ const HeaderTitle = styled.h1`
   ${breakpoint.desktop`
     font-size: 3rem;
   `}
-`
+`;
 
 const HeaderSub = styled.span`
   font-size: 1.5rem;
@@ -50,17 +50,17 @@ const HeaderSub = styled.span`
   ${breakpoint.desktop`
     font-size: 1.5rem;
   `}
-`
+`;
 
 const Header = styled.header`
   padding-bottom: 1.5rem;
   border-bottom: 2px solid #e6e6e6;
-`
+`;
 
 const PublicationPage = styled.div`
   animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
   padding: 0 2.5rem;
-`
+`;
 
 const PublicationPageContent = styled.div`
   display: flex;
@@ -69,11 +69,11 @@ const PublicationPageContent = styled.div`
   ${breakpoint.desktop`
     flex-direction: row;
   `}
-`
+`;
 
 const AbstractBody = styled.div`
   padding-top: 1.75rem;
-`
+`;
 
 const AbstractText = styled.p`
   font-size: 1rem;
@@ -100,11 +100,11 @@ const AbstractText = styled.p`
     margin: 0 0 0.75rem !important;
     padding: 0;
   }
-`
+`;
 
 const Info = styled.div`
   flex: 1;
-`
+`;
 
 const Preview = styled.div`
   display: block;
@@ -114,7 +114,7 @@ const Preview = styled.div`
   ${breakpoint.desktop`
     margin-left: 3rem;
   `}
-`
+`;
 
 const PreviewImageWrapper = styled.div`
   border-radius: 4px;
@@ -123,11 +123,11 @@ const PreviewImageWrapper = styled.div`
   transition: 0.3s ease-in-out;
   position: relative;
   overflow: hidden;
-`
+`;
 
 const Back = styled(BackButton)`
   margin-bottom: 1.5rem;
-`
+`;
 
 const ReadButton = styled.button`
   background: linear-gradient(135deg, ${Colors.teal}, ${Colors.darkTeal});
@@ -170,26 +170,29 @@ const ReadButton = styled.button`
       opacity: 1;
     }
   }
-`
+`;
 
 class Publication extends PureComponent<Props> {
   goToLink() {
-    const link = get(this.props, "data.markdownRemark.frontmatter.link")
+    const link = get(this.props, "data.markdownRemark.frontmatter.link");
     const file = get(
       this.props,
       "data.markdownRemark.frontmatter.file.publicURL"
-    )
+    );
 
-    window.open(file || link, "_blank")
+    window.open(file || link, "_blank");
   }
 
   render() {
-    const md = get(this.props, "data.markdownRemark", {})
-    const frontmatter = get(md, "frontmatter", {})
-    const thumbnail = get(frontmatter, "thumbnail.childImageSharp.fluid")
+    const md = get(this.props, "data.markdownRemark", {});
+    const frontmatter = get(md, "frontmatter", {});
+    const thumbnail = get(
+      frontmatter,
+      "thumbnail.childImageSharp.gatsbyImageData"
+    );
 
-    const { html } = md
-    const { title, year, publisher } = frontmatter
+    const { html } = md;
+    const { title, year, publisher } = frontmatter;
 
     return (
       <PublicationPage>
@@ -209,18 +212,18 @@ class Publication extends PureComponent<Props> {
           </Info>
           <Preview>
             <PreviewImageWrapper>
-              <Image fluid={thumbnail} />
+              <GatsbyImage alt={title} image={thumbnail} />
             </PreviewImageWrapper>
             <ReadButton onClick={this.goToLink.bind(this)}>Read Now</ReadButton>
           </Preview>
         </PublicationPageContent>
       </PublicationPage>
-    )
+    );
   }
 }
 
 export const pageQuery = graphql`
-  query($path: String!) {
+  query ($path: String!) {
     markdownRemark(frontmatter: { path: { eq: $path } }) {
       html
       headings {
@@ -237,18 +240,12 @@ export const pageQuery = graphql`
         }
         thumbnail {
           childImageSharp {
-            fluid(maxWidth: 800, maxHeight: 1040) {
-              base64
-              aspectRatio
-              src
-              srcSet
-              sizes
-            }
+            gatsbyImageData(layout: CONSTRAINED, width: 800, height: 1040)
           }
         }
       }
     }
   }
-`
+`;
 
-export default Publication
+export default Publication;

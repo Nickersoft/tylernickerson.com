@@ -1,16 +1,16 @@
-import React, { Component } from "react"
+import React, { Component } from "react";
 
-import styled, { css, keyframes } from "styled-components"
+import styled, { css, keyframes } from "styled-components";
 
-import { Colors, breakpoint, Keyframes } from "@site/util"
-import { graphql, StaticQuery } from "gatsby"
+import { Colors, breakpoint, Keyframes } from "@site/util";
+import { graphql, StaticQuery } from "gatsby";
 
-type FadeState = "in" | "out" | "none"
+type FadeState = "in" | "out" | "none";
 
 type State = {
-  fadeState: FadeState
-  currentTitleIndex: number
-}
+  fadeState: FadeState;
+  currentTitleIndex: number;
+};
 
 const Header = styled.h1`
   text-align: center;
@@ -21,7 +21,7 @@ const Header = styled.h1`
   ${breakpoint.desktop`
     text-align: left;
   `}
-`
+`;
 
 const fadeInAnimation = keyframes`
   from {
@@ -33,7 +33,7 @@ const fadeInAnimation = keyframes`
     opacity: 1;
     transform: translateY(0);
   }
-`
+`;
 
 const fadeOutAnimation = keyframes`
   from {
@@ -45,12 +45,12 @@ const fadeOutAnimation = keyframes`
     opacity: 0;
     transform: translateY(-6px);
   }
-`
+`;
 
 type AnimatedTextState = {
-  fadeState: FadeState
-  color: string
-}
+  fadeState: FadeState;
+  color: string;
+};
 
 const AnimatedTextContainer = styled.span`
   display: inline-block;
@@ -58,7 +58,7 @@ const AnimatedTextContainer = styled.span`
   position: relative;
 
   &:after {
-    content: '';
+    content: "";
     width: 100%;
     height: 0;
     /* border-bottom: 3px dashed ${Colors.gray}; */
@@ -68,7 +68,7 @@ const AnimatedTextContainer = styled.span`
     z-index: -1;
     opacity: 0.2;
   }
-`
+`;
 
 const AnimatedText = styled.span<AnimatedTextState>`
   display: inline-block;
@@ -83,16 +83,16 @@ const AnimatedText = styled.span<AnimatedTextState>`
       return css`
         animation: ${fadeState === "in" ? fadeInAnimation : fadeOutAnimation}
           0.5s ease-in-out forwards;
-      `
+      `;
     }
 
-    return ""
+    return "";
   }};
-`
+`;
 
 const Container = styled.div`
   animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
-`
+`;
 
 const ResumeLink = styled.p`
   display: block;
@@ -115,12 +115,12 @@ const ResumeLink = styled.p`
     padding: 0;
     text-align: left;
   `}
-`
+`;
 
 type Title = {
-  text: string
-  color: string
-}
+  text: string;
+  color: string;
+};
 
 const titles: Title[] = [
   {
@@ -147,45 +147,44 @@ const titles: Title[] = [
     text: "creator",
     color: Colors.purple,
   },
-]
+];
 
-type Props = {}
+type Props = {};
 
 class HomepageAnimatedHeader extends Component<Props, State> {
   state = {
     fadeState: "none" as "none",
     currentTitleIndex: 0,
-  }
+  };
 
-  repeatedInterval: any
+  repeatedInterval: any;
 
   componentDidMount() {
     this.repeatedInterval = setInterval(() => {
-      const { currentTitleIndex } = this.state
+      const { currentTitleIndex } = this.state;
       const nextIndex =
-        currentTitleIndex === titles.length - 1 ? 0 : currentTitleIndex + 1
+        currentTitleIndex === titles.length - 1 ? 0 : currentTitleIndex + 1;
       this.setState({
         fadeState: "out",
-      })
+      });
       setTimeout(() => {
         this.setState({
           fadeState: "in",
           currentTitleIndex: nextIndex,
-        })
-      }, 600)
-    }, 3000)
+        });
+      }, 600);
+    }, 3000);
   }
 
   componentWillUnmount() {
-    clearInterval(this.repeatedInterval)
+    clearInterval(this.repeatedInterval);
   }
 
   render() {
-    const { fadeState, currentTitleIndex } = this.state
+    const { fadeState, currentTitleIndex } = this.state;
 
-    const { color: currentTitleColor, text: currentTitleText } = titles[
-      currentTitleIndex
-    ]
+    const { color: currentTitleColor, text: currentTitleText } =
+      titles[currentTitleIndex];
 
     return (
       <StaticQuery
@@ -219,8 +218,8 @@ class HomepageAnimatedHeader extends Component<Props, State> {
           </Container>
         )}
       />
-    )
+    );
   }
 }
 
-export default HomepageAnimatedHeader
+export default HomepageAnimatedHeader;

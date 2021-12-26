@@ -1,17 +1,17 @@
-import React, { PureComponent } from "react"
+import React, { PureComponent } from "react";
 
-import { get, filter, map } from "lodash"
-import { graphql } from "gatsby"
+import { get, filter, map } from "lodash";
+import { graphql } from "gatsby";
 
-import { Helmet } from "react-helmet"
-import GithubSlugger from "github-slugger"
-import styled from "styled-components"
+import { Helmet } from "react-helmet";
+import GithubSlugger from "github-slugger";
+import styled from "styled-components";
 
-import { TitledView, TextArea } from "@site/components"
-import { Colors, renderAst, breakpoint } from "@site/util"
-import { Heading } from "@site/models"
+import { TitledView, TextArea } from "@site/components";
+import { Colors, renderAst, breakpoint } from "@site/util";
+import { Heading } from "@site/models";
 
-const slugger = GithubSlugger()
+const slugger = GithubSlugger();
 
 const ContentOverview = styled.div`
   background: #f6f6f6;
@@ -48,14 +48,14 @@ const ContentOverview = styled.div`
       color: ${Colors.blue};
     }
   }
-`
+`;
 
 const ContentOverviewList = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
   width: 100%;
-`
+`;
 
 const ContentOverviewListItem = styled.li`
   padding: 0;
@@ -65,29 +65,29 @@ const ContentOverviewListItem = styled.li`
   &:not(:last-of-type) {
     margin-bottom: 1rem;
   }
-`
+`;
 
 const ContentOverviewListItemLabel = styled.span`
   display: block;
   font-weight: 700;
   line-height: 1.25em;
   color: #777;
-`
+`;
 
 type Props = {
-  title: string
-  sub: string
-  html: string
+  title: string;
+  sub: string;
+  html: string;
   data: {
     markdownRemark: {
-      headings: Heading[]
-    }
-  }
-}
+      headings: Heading[];
+    };
+  };
+};
 
 type OverviewInfo = {
-  label: string
-}
+  label: string;
+};
 
 class ProjectsContent extends PureComponent<Props> {
   overviewProps: { [key: string]: OverviewInfo } = {
@@ -109,24 +109,24 @@ class ProjectsContent extends PureComponent<Props> {
     originally: {
       label: "Original Names",
     },
-  }
+  };
 
   render() {
-    const md = get(this.props, "data.markdownRemark", {})
-    const ast = get(md, "htmlAst")
-    const frontmatter = get(md, "frontmatter", {})
+    const md = get(this.props, "data.markdownRemark", {});
+    const ast = get(md, "htmlAst");
+    const frontmatter = get(md, "frontmatter", {});
 
-    const { title, sub, ...overview } = frontmatter
+    const { title, sub, ...overview } = frontmatter;
 
-    slugger.reset()
+    slugger.reset();
 
     // These have to be on separate lines otherwise TS breaks *shrug emoji*
-    const headings: Heading[] = get(md, "headings", [])
-    const appropHeaders: Heading[] = filter(headings, { depth: 3 })
+    const headings: Heading[] = get(md, "headings", []);
+    const appropHeaders: Heading[] = filter(headings, { depth: 3 });
     const headerLinks = appropHeaders.map(({ value }) => ({
       name: value,
       location: `#${slugger.slug(value)}`,
-    }))
+    }));
 
     return (
       <>
@@ -163,12 +163,12 @@ class ProjectsContent extends PureComponent<Props> {
           />
         </TitledView>
       </>
-    )
+    );
   }
 }
 
 export const pageQuery = graphql`
-  query($path: String!) {
+  query ($path: String!) {
     markdownRemark(frontmatter: { path: { eq: $path } }) {
       htmlAst
       headings {
@@ -186,6 +186,6 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;
 
-export default ProjectsContent
+export default ProjectsContent;

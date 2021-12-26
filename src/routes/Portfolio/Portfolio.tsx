@@ -1,18 +1,18 @@
-import React, { PureComponent } from "react"
+import React, { PureComponent } from "react";
+import styled from "styled-components";
 
-import { get, map } from "lodash"
-import { Link, graphql } from "gatsby"
+import { get, map } from "lodash";
+import { Link, graphql } from "gatsby";
 
-import styled from "styled-components"
-import Image from "gatsby-image"
-import { Helmet } from "react-helmet"
+import { GatsbyImage } from "gatsby-plugin-image";
+import { Helmet } from "react-helmet";
 
-import { Colors, Keyframes, breakpoint } from "@site/util"
+import { Colors, Keyframes, breakpoint } from "@site/util";
 
 const PortfolioPage = styled.div`
   animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
   padding: 0 2.5rem;
-`
+`;
 
 const Header = styled.h1`
   margin-bottom: 2rem;
@@ -22,7 +22,7 @@ const Header = styled.h1`
     text-align: left;
     margin-bottom: 3rem;
   `}
-`
+`;
 
 const PortfolioContainer = styled.div`
   display: grid;
@@ -31,7 +31,7 @@ const PortfolioContainer = styled.div`
   width: 100%;
   justify-items: center;
   align-content: center;
-`
+`;
 
 const Portfolio = styled(Link)`
   width: 100%;
@@ -71,11 +71,11 @@ const Portfolio = styled(Link)`
     overflow: hidden;
     box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.12);
   }
-`
+`;
 
 const ImageWrapper = styled.div`
   overflow: hidden;
-`
+`;
 
 const PortfolioTitle = styled.span`
   color: ${Colors.gray};
@@ -86,56 +86,59 @@ const PortfolioTitle = styled.span`
   display: block;
   font-weight: 700;
   width: 100%;
-`
+`;
 
 const PortfolioYear = styled(PortfolioTitle)`
   opacity: 0.5;
   margin: 0;
   font-weight: 400;
-`
+`;
 
 type PublicationType = {
   frontmatter: {
-    title: string
-    sub: string
-    thumbnail: Image
-  }
-  html: string
-}
+    title: string;
+    sub: string;
+    thumbnail: any;
+  };
+  html: string;
+};
 
 type Props = {
   data: {
     allMarkdownRemark: {
       edges: {
-        node: PublicationType
-      }[]
-    }
-  }
-}
+        node: PublicationType;
+      }[];
+    };
+  };
+};
 
 class PortfolioCollection extends PureComponent<Props> {
   getPortfolioEntry(publication: PublicationType) {
-    const thumbnail = get(publication, "thumbnail.childImageSharp.fluid")
-    const title = get(publication, "title", "")
-    const year = get(publication, "year", "")
-    const path = get(publication, "path")
+    const thumbnail = get(
+      publication,
+      "thumbnail.childImageSharp.gatsbyImageData"
+    );
+    const title = get(publication, "title", "");
+    const year = get(publication, "year", "");
+    const path = get(publication, "path");
 
     return (
       <Portfolio key={title} to={path}>
         {thumbnail && (
           <ImageWrapper>
-            <Image fluid={thumbnail} />
+            <GatsbyImage alt={title} image={thumbnail} />
           </ImageWrapper>
         )}
         <PortfolioTitle>{title}</PortfolioTitle>
         <PortfolioYear>{year}</PortfolioYear>
       </Portfolio>
-    )
+    );
   }
 
   render() {
-    const edges = get(this.props, "data.allMarkdownRemark.edges", [])
-    const entries = map(edges, "node.frontmatter")
+    const edges = get(this.props, "data.allMarkdownRemark.edges", []);
+    const entries = map(edges, "node.frontmatter");
 
     return (
       <>
@@ -151,7 +154,7 @@ class PortfolioCollection extends PureComponent<Props> {
           </PortfolioContainer>
         </PortfolioPage>
       </>
-    )
+    );
   }
 }
 
@@ -167,13 +170,7 @@ export const pageQuery = graphql`
             path
             thumbnail {
               childImageSharp {
-                fluid(maxWidth: 800) {
-                  base64
-                  aspectRatio
-                  src
-                  srcSet
-                  sizes
-                }
+                gatsbyImageData(layout: CONSTRAINED, width: 800)
               }
             }
           }
@@ -181,6 +178,6 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;
 
-export default PortfolioCollection
+export default PortfolioCollection;

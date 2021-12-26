@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
+import React from "react";
+import styled from "styled-components";
 
-import { Testimonial } from "@site/components"
-import { breakpoint, Colors } from "@site/util"
+import { Testimonial } from "@site/components";
+import { breakpoint, Colors } from "@site/util";
 
 const TestimonialsContainer = styled.div`
   overflow: scroll;
@@ -16,7 +16,7 @@ const TestimonialsContainer = styled.div`
     width: calc(100% + 2rem);
     padding: 2.5rem;
   `}
-`
+`;
 
 const TestimonialOverlay = styled.div`
   position: relative;
@@ -36,7 +36,7 @@ const TestimonialOverlay = styled.div`
       z-index: 100;
     }  
   `}
-`
+`;
 
 const Testimonials = styled.div<{ justifyContent: string }>`
   display: flex;
@@ -49,7 +49,7 @@ const Testimonials = styled.div<{ justifyContent: string }>`
     justify-content: ${({ justifyContent }: { justifyContent: string }) =>
       justifyContent};
   `}
-`
+`;
 
 const TestimonialsHeader = styled.div`
   text-align: center;
@@ -77,16 +77,16 @@ const TestimonialsHeader = styled.div`
     background: ${Colors.lightGray};
     position: absolute;
   }
-`
+`;
 
 interface Props {
   testimonials: {
-    color: string
-    name: string
-    title: string
-    image: string
-    text: string
-  }[]
+    color: string;
+    name: string;
+    title: string;
+    image: string;
+    text: string;
+  }[];
 }
 
 const ExperienceTestimonials: React.FunctionComponent<Props> = ({
@@ -103,6 +103,7 @@ const ExperienceTestimonials: React.FunctionComponent<Props> = ({
         >
           {testimonials?.map(({ name, title, color, image, text }) => (
             <Testimonial
+              key={name}
               name={name}
               color={color}
               title={title}
@@ -114,6 +115,6 @@ const ExperienceTestimonials: React.FunctionComponent<Props> = ({
       </TestimonialsContainer>
     </TestimonialOverlay>
   </>
-)
+);
 
-export default ExperienceTestimonials
+export default ExperienceTestimonials;

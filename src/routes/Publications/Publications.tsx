@@ -1,18 +1,17 @@
-import React, { PureComponent } from "react"
+import React, { PureComponent } from "react";
+import styled from "styled-components";
 
-import { get, map } from "lodash"
-import { Link, graphql } from "gatsby"
+import { get, map } from "lodash";
+import { Link, graphql } from "gatsby";
+import { GatsbyImage } from "gatsby-plugin-image";
+import { Helmet } from "react-helmet";
 
-import styled from "styled-components"
-import Image from "gatsby-image"
-import { Helmet } from "react-helmet"
-
-import { Colors, Keyframes, breakpoint } from "@site/util"
+import { Colors, Keyframes, breakpoint } from "@site/util";
 
 const PublicationsPage = styled.div`
   animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
   padding: 0 2.5rem;
-`
+`;
 
 const Header = styled.h1`
   margin-bottom: 2rem;
@@ -22,7 +21,7 @@ const Header = styled.h1`
     text-align: left;
     margin-bottom: 3rem;
   `}
-`
+`;
 
 const PublicationsContainer = styled.div`
   display: flex;
@@ -35,7 +34,7 @@ const PublicationsContainer = styled.div`
   ${breakpoint.desktop`
     justify-content: flex-start;
   `}
-`
+`;
 
 const Publication = styled(Link)`
   width: 100%;
@@ -73,7 +72,7 @@ const Publication = styled(Link)`
     overflow: hidden;
     box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.12);
   }
-`
+`;
 
 const PublicationTitle = styled.span`
   color: ${Colors.gray};
@@ -84,62 +83,69 @@ const PublicationTitle = styled.span`
   display: block;
   font-weight: 700;
   width: 100%;
-`
+`;
 
 const PublicationYear = styled(PublicationTitle)`
   opacity: 0.5;
   margin: 0;
   font-weight: 400;
-`
+`;
 
 type PublicationType = {
   frontmatter: {
-    title: string
-    sub: string
-    thumbnail: Image
-  }
-  html: string
-}
+    title: string;
+    sub: string;
+    thumbnail: any;
+  };
+  html: string;
+};
 
 type Props = {
   data: {
     allMarkdownRemark: {
       edges: {
-        node: PublicationType
-      }[]
-    }
-  }
-}
+        node: PublicationType;
+      }[];
+    };
+  };
+};
 
 class Publications extends PureComponent<Props> {
   getPublicationEntry(publication: PublicationType) {
-    const thumbnail = get(publication, "thumbnail.childImageSharp.fluid")
-    const title = get(publication, "title", "")
-    const year = get(publication, "year", "")
-    const path = get(publication, "path")
+    const thumbnail = get(
+      publication,
+      "thumbnail.childImageSharp.gatsbyImageData"
+    );
+    const title = get(publication, "title", "");
+    const year = get(publication, "year", "");
+    const path = get(publication, "path");
 
     return (
       <Publication key={title} to={path}>
-        {thumbnail && <Image fluid={thumbnail} />}
+        {thumbnail && <GatsbyImage alt={title} image={thumbnail} />}
         <PublicationTitle>{title}</PublicationTitle>
         <PublicationYear>{year}</PublicationYear>
       </Publication>
-    )
+    );
   }
 
   render() {
-    const edges = get(this.props, "data.allMarkdownRemark.edges", [])
-    const entries = map(edges, "node.frontmatter")
-    
+    const edges = get(this.props, "data.allMarkdownRemark.edges", []);
+    const entries = map(edges, "node.frontmatter");
+
     return (
       <PublicationsPage>
         <Helmet title="Publications | Tyler Nickerson" />
         <Header>Publications</Header>
         <PublicationsContainer>
-          {entries.sort(({ year:y1 }, {year:y2}) => parseInt(y1)>parseInt(y2) ? -1 : 1 ).map(this.getPublicationEntry)}
+          {entries
+            .sort(({ year: y1 }, { year: y2 }) =>
+              parseInt(y1) > parseInt(y2) ? -1 : 1
+            )
+            .map(this.getPublicationEntry)}
         </PublicationsContainer>
       </PublicationsPage>
-    )
+    );
   }
 }
 
@@ -157,13 +163,7 @@ export const pageQuery = graphql`
             path
             thumbnail {
               childImageSharp {
-                fluid(maxWidth: 800, maxHeight: 1040) {
-                  base64
-                  aspectRatio
-                  src
-                  srcSet
-                  sizes
-                }
+                gatsbyImageData(layout: CONSTRAINED, width: 800, height: 1040)
               }
             }
           }
@@ -171,6 +171,6 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;
 
-export default Publications
+export default Publications;

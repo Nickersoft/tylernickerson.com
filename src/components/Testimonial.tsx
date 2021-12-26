@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
+import React from "react";
+import styled from "styled-components";
 
-import { breakpoint, Colors } from "@site/util"
+import { breakpoint, Colors } from "@site/util";
 
 const Card = styled.div`
   display: flex;
@@ -47,7 +47,7 @@ const Card = styled.div`
     margin: 0;
     line-height: 1.5em;
   }
-`
+`;
 
 const Title = styled.div`
   font-size: 1rem;
@@ -71,7 +71,7 @@ const Title = styled.div`
       margin: 0 0.3rem;
     }
   `}
-`
+`;
 
 const TitleArea = styled.div<{ color: string }>`
   flex-shrink: 0;
@@ -106,14 +106,14 @@ const TitleArea = styled.div<{ color: string }>`
       flex-direction: column;
     `}
   }
-`
+`;
 
 interface Props {
-  name: string
-  title: string
-  image: string
-  text: string
-  color: string
+  name: string;
+  title: string;
+  image: string;
+  text: string;
+  color: string;
 }
 
 export const Testimonial: React.FunctionComponent<Props> = ({
@@ -132,4 +132,4 @@ export const Testimonial: React.FunctionComponent<Props> = ({
     </TitleArea>
     <p>“{text}”</p>
   </Card>
-)
+);

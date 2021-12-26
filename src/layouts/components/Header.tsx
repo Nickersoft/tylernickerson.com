@@ -1,23 +1,23 @@
-import React, { Component } from "react"
+import React, { Component } from "react";
 
-import { Link as GatsbyLink } from "gatsby"
-import { get } from "lodash"
+import { Link as GatsbyLink } from "gatsby";
+import { get } from "lodash";
 
-import styled from "styled-components"
+import styled from "styled-components";
 
-import { Link } from "@site/models"
-import { Container } from "@site/components"
-import { breakpoint, Colors, Keyframes } from "@site/util"
+import { Link } from "@site/models";
+import { Container } from "@site/components";
+import { breakpoint, Colors, Keyframes } from "@site/util";
 
 type HeaderListProps = {
-  percentage: number
-  offset: number
-  visible: boolean
-}
+  percentage: number;
+  offset: number;
+  visible: boolean;
+};
 
 type HeaderLinkProps = {
-  index: number
-}
+  index: number;
+};
 
 const HeaderLink = styled(GatsbyLink)<HeaderLinkProps>`
   letter-spacing: 4px;
@@ -39,7 +39,7 @@ const HeaderLink = styled(GatsbyLink)<HeaderLinkProps>`
     margin: 0;
     padding: 1rem 0;
   `}
-`
+`;
 
 const HeaderItem = styled.li`
   display: inline-block;
@@ -49,7 +49,7 @@ const HeaderItem = styled.li`
   ${breakpoint.desktop`
     flex: 1;
   `}
-`
+`;
 
 const HeaderContainer = styled(Container)`
   padding: 0;
@@ -58,7 +58,7 @@ const HeaderContainer = styled(Container)`
     padding: 2rem 0 3rem;
     width: 95%;
   `}
-`
+`;
 
 const MobileCloseButton = styled.button`
   position: fixed;
@@ -80,7 +80,7 @@ const MobileCloseButton = styled.button`
     color: ${Colors.gray};
     opacity: 0.3;
   }
-`
+`;
 
 const MobileOpenButton = styled.button`
   color: ${Colors.gray};
@@ -104,7 +104,7 @@ const MobileOpenButton = styled.button`
   ${breakpoint.desktop`
     display: none;
   `}
-`
+`;
 
 const HeaderList = styled.ul<HeaderListProps>`
   list-style: none;
@@ -140,38 +140,38 @@ const HeaderList = styled.ul<HeaderListProps>`
         offset * percentage * 100}%;
     }
   `}
-`
+`;
 
 type Props = {
-  location: Location
-}
+  location: Location;
+};
 
 type State = {
-  mobileMenuShowing: boolean
-  currentLocation: string | null
-}
+  mobileMenuShowing: boolean;
+  currentLocation: string | null;
+};
 
 class Header extends Component<Props, State> {
   static defaultProps = {
     siteTitle: "",
-  }
+  };
 
   state = {
     mobileMenuShowing: false,
     currentLocation: null,
-  }
+  };
 
   static getDerivedStateFromProps(props: Props, state: State) {
-    const pathname = get(props, "location.pathname")
+    const pathname = get(props, "location.pathname");
 
     if (pathname !== state.currentLocation) {
       return {
         mobileMenuShowing: false,
         currentLocation: props.location.pathname,
-      }
+      };
     }
 
-    return null
+    return null;
   }
 
   links = [
@@ -181,34 +181,34 @@ class Header extends Component<Props, State> {
     Link("Portfolio", "portfolio"),
     Link("Publications", "publications"),
     Link("Contact", "contact"),
-  ]
+  ];
 
   openMobileMenu() {
     this.setState({
       mobileMenuShowing: true,
-    })
+    });
   }
 
   closeMobileMenu() {
     this.setState({
       mobileMenuShowing: false,
-    })
+    });
   }
 
   render() {
-    const { location } = this.props
-    const { mobileMenuShowing } = this.state
+    const { location } = this.props;
+    const { mobileMenuShowing } = this.state;
 
-    const itemWidth = 1 / Math.max(this.links.length, 1)
+    const itemWidth = 1 / Math.max(this.links.length, 1);
 
     let navMatch = this.links.findIndex(
       ({ location: linkLoc }) =>
         location.pathname.includes(linkLoc.split("/")[0]) &&
         linkLoc.trim().length > 0
-    )
+    );
 
     if (navMatch === -1) {
-      navMatch = 0
+      navMatch = 0;
     }
 
     return (
@@ -239,8 +239,8 @@ class Header extends Component<Props, State> {
           ))}
         </HeaderList>
       </HeaderContainer>
-    )
+    );
   }
 }
 
-export default Header
+export default Header;

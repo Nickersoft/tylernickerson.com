@@ -1,16 +1,16 @@
-import React from 'react'
+import React from "react";
 
-import { Link, StaticQuery, graphql } from 'gatsby'
+import { Link, StaticQuery, graphql } from "gatsby";
 
-import styled from 'styled-components'
+import styled from "styled-components";
 
-import { Colors } from '@site/util'
+import { Colors } from "@site/util";
 
 type Props = {
-  to: string
-  children: string
-  className?: string
-}
+  to: string;
+  children: string;
+  className?: string;
+};
 
 const Button = styled(Link)`
   color: ${Colors.gray};
@@ -28,7 +28,7 @@ const Button = styled(Link)`
     padding: 0;
     opacity: 0.75;
   }
-`
+`;
 
 export const BackButton = ({ children, to, className }: Props) => (
   <StaticQuery
@@ -40,10 +40,10 @@ export const BackButton = ({ children, to, className }: Props) => (
       }
     `}
     render={({ backImage: { publicURL: backImage } }) => (
-      <Button className={className || ''} to={to}>
+      <Button className={className || ""} to={to}>
         <img src={backImage} />
         {children}
       </Button>
     )}
   />
-)
+);

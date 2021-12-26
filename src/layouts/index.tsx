@@ -1,33 +1,33 @@
-import React, { PureComponent } from "react"
+import React, { PureComponent } from "react";
 
-import { get } from "lodash"
+import { get } from "lodash";
 
-import MainLayout from "./MainLayout"
-import ItemLayout from "./ItemLayout"
+import MainLayout from "./MainLayout";
+import ItemLayout from "./ItemLayout";
 
-require(`katex/dist/katex.min.css`)
+require(`katex/dist/katex.min.css`);
 
 type Props = {
-  children: JSX.Element | JSX.Element[]
-  location: Location
+  children: JSX.Element | JSX.Element[];
+  location: Location;
   pageContext: {
-    layout: string
-    pathPrefix: string
+    layout: string;
+    pathPrefix: string;
     data: {
-      path: string
-      icon: string
-    }[]
-    itemKey: string
-    allKeys: string[]
-  }
-}
+      path: string;
+      icon: string;
+    }[];
+    itemKey: string;
+    allKeys: string[];
+  };
+};
 
 export default class Layout extends PureComponent<Props> {
   resolveChildren() {
-    const { pageContext, children, location } = this.props
+    const { pageContext, children, location } = this.props;
 
-    const layout = get(pageContext, "layout", "main")
-    const data = get(pageContext, "data", [])
+    const layout = get(pageContext, "layout", "main");
+    const data = get(pageContext, "data", []);
 
     switch (layout) {
       case "items":
@@ -35,9 +35,9 @@ export default class Layout extends PureComponent<Props> {
           <ItemLayout location={location} data={data || []}>
             {children}
           </ItemLayout>
-        )
+        );
       default:
-        return children
+        return children;
     }
   }
 
@@ -46,6 +46,6 @@ export default class Layout extends PureComponent<Props> {
       <MainLayout location={this.props.location}>
         {this.resolveChildren()}
       </MainLayout>
-    )
+    );
   }
 }

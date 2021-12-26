@@ -1,10 +1,10 @@
-import React, { PureComponent } from "react"
+import React, { PureComponent } from "react";
 
-import styled from "styled-components"
+import styled from "styled-components";
 
-import { breakpoint } from "@site/util"
+import { breakpoint } from "@site/util";
 
-import ItemSideBar from "./components/ItemSideBar"
+import ItemSideBar from "./components/ItemSideBar";
 
 const ItemPage = styled.div`
   display: flex;
@@ -14,28 +14,28 @@ const ItemPage = styled.div`
   ${breakpoint.desktop`
     flex-direction: row;
   `}
-`
+`;
 
 type Props = {
-  children: JSX.Element | JSX.Element[]
-  location: Location
+  children: JSX.Element | JSX.Element[];
+  location: Location;
   data: {
-    path: string
-    icon: string
-  }[]
-}
+    path: string;
+    icon: string;
+  }[];
+};
 
 class ItemLayout extends PureComponent<Props> {
   render() {
-    const { children, location, data } = this.props
+    const { children, location, data } = this.props;
 
     return (
       <ItemPage>
         <ItemSideBar location={location} data={data} />
         {children}
       </ItemPage>
-    )
+    );
   }
 }
 
-export default ItemLayout
+export default ItemLayout;

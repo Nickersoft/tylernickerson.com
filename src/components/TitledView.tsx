@@ -1,9 +1,9 @@
-import React, { PureComponent } from "react"
+import React, { PureComponent } from "react";
 
-import styled from "styled-components"
+import styled from "styled-components";
 
-import { LinkModel } from "@site/models"
-import { Colors, breakpoint, Keyframes } from "@site/util"
+import { LinkModel } from "@site/models";
+import { Colors, breakpoint, Keyframes } from "@site/util";
 
 const MainContent = styled.div`
   flex: 1;
@@ -15,7 +15,7 @@ const MainContent = styled.div`
   ${breakpoint.desktop`
     margin: 0;
   `}
-`
+`;
 
 const ContentHeader = styled.header`
   display: flex;
@@ -28,7 +28,7 @@ const ContentHeader = styled.header`
   ${breakpoint.desktop`
     flex-direction: row;
   `}
-`
+`;
 
 const ContentHeaderLabel = styled.h1`
   font-size: 1rem;
@@ -43,7 +43,7 @@ const ContentHeaderLabel = styled.h1`
   ${breakpoint.desktop`
     font-size: 1.125rem;
   `}
-`
+`;
 
 const ContentHeaderTitle = styled.h2`
   font-size: 2.5rem;
@@ -55,7 +55,7 @@ const ContentHeaderTitle = styled.h2`
   ${breakpoint.desktop`
     font-size: 3rem;
   `}
-`
+`;
 
 const ContentHeaderYear = styled.span`
   font-size: 1.5rem;
@@ -67,7 +67,7 @@ const ContentHeaderYear = styled.span`
   ${breakpoint.desktop`
     font-size: 2rem;
   `}
-`
+`;
 
 const ContentHeaderNav = styled.nav`
   display: none;
@@ -80,7 +80,7 @@ const ContentHeaderNav = styled.nav`
     justify-content: space-around;
     align-items: center;
   `}
-`
+`;
 
 const ContentHeaderNavItem = styled.a`
   color: ${Colors.gray};
@@ -91,7 +91,7 @@ const ContentHeaderNavItem = styled.a`
   &:hover {
     opacity: 0.75;
   }
-`
+`;
 
 const ContentHeaderText = styled.div`
   display: block;
@@ -104,23 +104,23 @@ const ContentHeaderText = styled.div`
     min-width: 15rem;
     margin-right: 1rem;
   `}
-`
+`;
 
 type Props = {
   children: React.ReactNode | React.ReactNode[];
-  label: string
-  header: string
-  navItems: LinkModel[]
-  subheader: string
-}
+  label: string;
+  header: string;
+  navItems: LinkModel[];
+  subheader: string;
+};
 
 export class TitledView extends PureComponent<Props> {
   static defaultProps = {
     navItems: [],
-  }
+  };
 
   render() {
-    const { children, label, header, navItems, subheader } = this.props
+    const { children, label, header, navItems, subheader } = this.props;
 
     return (
       <MainContent>
@@ -131,7 +131,7 @@ export class TitledView extends PureComponent<Props> {
             <ContentHeaderYear>{subheader || ""}</ContentHeaderYear>
           </ContentHeaderText>
           <ContentHeaderNav>
-            {navItems.map(item => (
+            {navItems.map((item) => (
               <ContentHeaderNavItem key={item.name} href={item.location}>
                 {item.name}
               </ContentHeaderNavItem>
@@ -140,6 +140,6 @@ export class TitledView extends PureComponent<Props> {
         </ContentHeader>
         {children}
       </MainContent>
-    )
+    );
   }
 }

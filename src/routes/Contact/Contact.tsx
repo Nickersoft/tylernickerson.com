@@ -1,26 +1,26 @@
-import React, { Component } from "react"
+import React, { Component } from "react";
+import styled from "styled-components";
 
-import { graphql } from "gatsby"
-import { get } from "lodash"
+import { graphql } from "gatsby";
+import { get } from "lodash";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTwitter,
   faGithub,
   faDribbble,
   faLinkedinIn,
-} from "@fortawesome/free-brands-svg-icons"
+} from "@fortawesome/free-brands-svg-icons";
 
-import { Helmet } from "react-helmet"
-import Image, { GatsbyImageProps } from "gatsby-image"
-import styled from "styled-components"
+import { Helmet } from "react-helmet";
+import { GatsbyImage, GatsbyImageProps } from "gatsby-plugin-image";
 
-import { Keyframes, Colors, breakpoint } from "@site/util"
-import { IconProp } from "@fortawesome/fontawesome-svg-core"
+import { Keyframes, Colors, breakpoint } from "@site/util";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 type AnimationProps = {
-  index: number
-}
+  index: number;
+};
 
 const ContactPage = styled.div`
   display: flex;
@@ -32,16 +32,16 @@ const ContactPage = styled.div`
   ${breakpoint.tablet`
     padding: 0;
   `}
-`
+`;
 
-const InventionsImage = styled(Image)<GatsbyImageProps>`
+const InventionsImage = styled(GatsbyImage)<GatsbyImageProps>`
   max-width: 25rem;
   width: 100%;
   border-radius: 4px;
   box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.1);
   animation: ${Keyframes.fadeInUp} 0.5s ease-in-out;
   animation-fill-mode: both;
-`
+`;
 
 const IconContainer = styled.div`
   display: flex;
@@ -50,7 +50,7 @@ const IconContainer = styled.div`
   width: 100%;
   justify-content: space-between;
   padding: 2rem 0;
-`
+`;
 
 const IconLink = styled.a<AnimationProps>`
   text-decoration: none;
@@ -65,7 +65,7 @@ const IconLink = styled.a<AnimationProps>`
     color: ${Colors.blue};
     transform: translateY(-4px);
   }
-`
+`;
 
 const EmailText = styled.p<AnimationProps>`
   color: #777;
@@ -82,20 +82,20 @@ const EmailText = styled.p<AnimationProps>`
       color: ${Colors.blue};
     }
   }
-`
+`;
 
 type FAIcon = {
-  icon: IconProp
-  link: string
-}
+  icon: IconProp;
+  link: string;
+};
 
-const Icon = (icon: IconProp, link: string) => ({ link, icon })
+const Icon = (icon: IconProp, link: string) => ({ link, icon });
 
 const getIcon = ({ icon, link }: FAIcon, idx: number) => (
   <IconLink key={idx} index={idx} href={link} target="_blank">
     <FontAwesomeIcon icon={icon} />
   </IconLink>
-)
+);
 
 class Contact extends Component {
   contactIcons = [
@@ -103,21 +103,27 @@ class Contact extends Component {
     Icon(faDribbble, "https://dribbble.com/tylernickerson"),
     Icon(faGithub, "https://github.com/Nickersoft"),
     Icon(faLinkedinIn, "https://www.linkedin.com/in/tylernickerson/"),
-  ]
+  ];
 
   render() {
-    const inventions = get(this.props, "data.file.childImageSharp.fluid", null)
+    const inventions = get(
+      this.props,
+      "data.file.childImageSharp.gatsbyImageData",
+      null
+    );
 
     return (
       <ContactPage>
         <Helmet title="Contact | Tyler Nickerson" />
-        {inventions && <InventionsImage fluid={inventions} />}
+        {inventions && (
+          <InventionsImage alt="Me and my inventions" image={inventions} />
+        )}
         <IconContainer>{this.contactIcons.map(getIcon)}</IconContainer>
         <EmailText index={this.contactIcons.length - 1}>
           Or just <a href="mailto:nickersoft@gmail.com">email me</a>
         </EmailText>
       </ContactPage>
-    )
+    );
   }
 }
 
@@ -125,16 +131,10 @@ export const pageQuery = graphql`
   query {
     file(relativePath: { eq: "pics/inventions.jpg" }) {
       childImageSharp {
-        fluid(maxWidth: 800, maxHeight: 600) {
-          base64
-          aspectRatio
-          src
-          srcSet
-          sizes
-        }
+        gatsbyImageData(layout: CONSTRAINED, width: 800, height: 600)
       }
     }
   }
-`
+`;
 
-export default Contact
+export default Contact;

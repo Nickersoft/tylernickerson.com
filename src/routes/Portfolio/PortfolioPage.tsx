@@ -1,37 +1,37 @@
-import React from "react"
+import React from "react";
 
-import { graphql } from "gatsby"
+import { graphql } from "gatsby";
 
-import styled from "styled-components"
+import styled from "styled-components";
 
-import { Colors, Keyframes, breakpoint } from "@site/util"
-import { BackButton } from "@site/components"
-import { Helmet } from "react-helmet"
+import { Colors, Keyframes, breakpoint } from "@site/util";
+import { BackButton } from "@site/components";
+import { Helmet } from "react-helmet";
 
 type Props = {
   data: {
     backImage: {
-      publicURL: string
-    }
+      publicURL: string;
+    };
     markdownRemark: {
       frontmatter: {
-        title: string
-        sub: string
-        year: string
-        link: string
-      }
-      html: string
-    }
-  }
+        title: string;
+        sub: string;
+        year: string;
+        link: string;
+      };
+      html: string;
+    };
+  };
   pageContext: {
     portfolio: {
-      title: string
-      sub: string
-      html: string
-      link: string
-    }
-  }
-}
+      title: string;
+      sub: string;
+      html: string;
+      link: string;
+    };
+  };
+};
 
 const HeaderTitle = styled.h1`
   font-size: 2.5rem;
@@ -43,7 +43,7 @@ const HeaderTitle = styled.h1`
   ${breakpoint.desktop`
     font-size: 3rem;
   `}
-`
+`;
 
 const HeaderSub = styled.span`
   font-size: 1.5rem;
@@ -57,17 +57,17 @@ const HeaderSub = styled.span`
   ${breakpoint.desktop`
     font-size: 1.5rem;
   `}
-`
+`;
 
 const Header = styled.header`
   padding-bottom: 1.5rem;
   border-bottom: 2px solid #e6e6e6;
-`
+`;
 
 const PortfolioPage = styled.div`
   animation: ${Keyframes.fadeIn} 0.5s ease-in-out;
   padding: 0 2.5rem;
-`
+`;
 
 const PortfolioPageContent = styled.div`
   display: flex;
@@ -76,11 +76,11 @@ const PortfolioPageContent = styled.div`
   ${breakpoint.desktop`
     flex-direction: row;
   `}
-`
+`;
 
 const AbstractBody = styled.div`
   padding-top: 1.75rem;
-`
+`;
 
 const AbstractText = styled.p`
   font-size: 1rem;
@@ -107,15 +107,15 @@ const AbstractText = styled.p`
     margin: 0 0 0.75rem !important;
     padding: 0;
   }
-`
+`;
 
 const Info = styled.div`
   flex: 1;
-`
+`;
 
 const Back = styled(BackButton)`
   margin-bottom: 1.5rem;
-`
+`;
 
 const ReadButton = styled.button`
   background: linear-gradient(135deg, ${Colors.teal}, ${Colors.darkTeal});
@@ -158,7 +158,7 @@ const ReadButton = styled.button`
       opacity: 1;
     }
   }
-`
+`;
 
 const PresentationWrapper = styled.div`
   position: relative;
@@ -176,14 +176,14 @@ const PresentationWrapper = styled.div`
     box-shadow: 0 0 24px rgba(0, 0, 0, 0.08), 0 0 48px rgba(0, 0, 0, 0.03);
     top: 0;
   }
-`
+`;
 
 const Portfolio: React.FC<Props> = ({ data }) => {
-  const markdown = data?.markdownRemark ?? {}
-  const frontmatter = markdown?.frontmatter ?? {}
+  const markdown = data?.markdownRemark ?? {};
+  const frontmatter = markdown?.frontmatter ?? {};
 
-  const { html } = markdown
-  const { title, link, year } = frontmatter
+  const { html } = markdown;
+  const { title, link, year } = frontmatter;
 
   return (
     <PortfolioPage>
@@ -204,11 +204,11 @@ const Portfolio: React.FC<Props> = ({ data }) => {
         </Info>
       </PortfolioPageContent>
     </PortfolioPage>
-  )
-}
+  );
+};
 
 export const pageQuery = graphql`
-  query($path: String!) {
+  query ($path: String!) {
     markdownRemark(frontmatter: { path: { eq: $path } }) {
       html
       frontmatter {
@@ -219,6 +219,6 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;
 
-export default Portfolio
+export default Portfolio;

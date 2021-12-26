@@ -1,6 +1,6 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
-import { Colors } from "@site/util"
+import { Colors } from "@site/util";
 
 export const TextArea = styled.div`
   padding: 1.5rem 0;
@@ -29,4 +29,4 @@ export const TextArea = styled.div`
   div.gatsby-highlight {
     margin-bottom: 1.45rem;
   }
-`
+`;

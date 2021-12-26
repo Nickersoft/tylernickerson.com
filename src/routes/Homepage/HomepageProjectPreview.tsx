@@ -1,21 +1,21 @@
-import React, { Component } from "react"
+import React, { Component } from "react";
 
-import { Link } from "gatsby"
+import { Link } from "gatsby";
 
-import styled, { css, keyframes } from "styled-components"
+import styled, { css, keyframes } from "styled-components";
 
-import { Colors, Brands, Keyframes } from "@site/util"
-import { BackButton } from "@site/components"
+import { Colors, Brands, Keyframes } from "@site/util";
+import { BackButton } from "@site/components";
 
-const ANIM_BASE_DURATION = 0.2
+const ANIM_BASE_DURATION = 0.2;
 
 type ColorProps = {
-  accentColors: string[]
-}
+  accentColors: string[];
+};
 
 type AnimationProps = {
-  animationIndex: number
-}
+  animationIndex: number;
+};
 
 const accentAnimation = keyframes`
   from {
@@ -25,18 +25,18 @@ const accentAnimation = keyframes`
   to {
     width: 100px;
   }
-`
+`;
 
 const Preview = styled.div`
   max-width: 35rem;
-`
+`;
 
 const Back = styled(BackButton)<AnimationProps>`
   animation: ${Keyframes.fadeInUp} 0.5s ease-in-out;
   animation-delay: ${({ animationIndex }) =>
     animationIndex * ANIM_BASE_DURATION}s;
   animation-fill-mode: both;
-`
+`;
 
 const Header = styled.header<ColorProps & AnimationProps>`
   padding: 1.75rem 0;
@@ -56,7 +56,7 @@ const Header = styled.header<ColorProps & AnimationProps>`
     bottom: 0;
     left: 0;
   }
-`
+`;
 
 const HeaderTitle = styled.h1<AnimationProps>`
   font-size: 3rem;
@@ -68,7 +68,7 @@ const HeaderTitle = styled.h1<AnimationProps>`
   animation-delay: ${({ animationIndex }) =>
     animationIndex * ANIM_BASE_DURATION}s;
   animation-fill-mode: both;
-`
+`;
 
 const HeaderSub = styled.h2<AnimationProps>`
   font-size: 1.75rem;
@@ -82,7 +82,7 @@ const HeaderSub = styled.h2<AnimationProps>`
   animation-delay: ${({ animationIndex }) =>
     animationIndex * ANIM_BASE_DURATION}s;
   animation-fill-mode: both;
-`
+`;
 
 const Description = styled.div<AnimationProps>`
   padding: 2rem 0 0;
@@ -93,7 +93,7 @@ const Description = styled.div<AnimationProps>`
     animationIndex * ANIM_BASE_DURATION}s;
   line-height: 1.5em;
   color: ${Colors.gray};
-`
+`;
 
 const Overview = styled.div<AnimationProps>`
   line-height: 1.5em;
@@ -119,7 +119,7 @@ const Overview = styled.div<AnimationProps>`
     font-weight: 700;
     color: #777;
   }
-`
+`;
 
 const Button = styled(Link)<ColorProps & AnimationProps>`
   border-radius: 4px;
@@ -170,23 +170,23 @@ const Button = styled(Link)<ColorProps & AnimationProps>`
     left: 0;
     opacity: 0;
   }
-`
+`;
 
 type Props = {
-  title: string
-  duration: string
-  website: string
-  tagline: string
-  link: string
-  html: string
-  id: string
-}
+  title: string;
+  duration: string;
+  website: string;
+  tagline: string;
+  link: string;
+  html: string;
+  id: string;
+};
 
 class HomepageProjectPreview extends Component<Props> {
   render() {
-    const { title, duration, website, id, tagline, link, html } = this.props
+    const { title, duration, website, id, tagline, link, html } = this.props;
 
-    const brandColors = Brands[id]
+    const brandColors = Brands[id];
 
     return (
       <Preview>
@@ -213,8 +213,8 @@ class HomepageProjectPreview extends Component<Props> {
           Learn More
         </Button>
       </Preview>
-    )
+    );
   }
 }
 
-export default HomepageProjectPreview
+export default HomepageProjectPreview;

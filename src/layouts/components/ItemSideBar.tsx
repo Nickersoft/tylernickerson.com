@@ -1,16 +1,16 @@
-import React, { PureComponent } from "react"
+import React, { PureComponent } from "react";
 
-import { Link } from "gatsby"
-import { get, findIndex } from "lodash"
+import { Link } from "gatsby";
+import { get, findIndex } from "lodash";
 
-import styled from "styled-components"
+import styled from "styled-components";
 
-import { Icon } from "@site/components"
-import { breakpoint } from "@site/util"
+import { Icon } from "@site/components";
+import { breakpoint } from "@site/util";
 
 type SideNavProps = {
-  activeIndex: number
-}
+  activeIndex: number;
+};
 
 const SideNav = styled.nav<SideNavProps>`
   display: flex;
@@ -53,7 +53,7 @@ const SideNav = styled.nav<SideNavProps>`
         64 * activeIndex + 18 * activeIndex + 64 / 2}px;
     `}
   }
-`
+`;
 
 const NavIcon = styled(Icon)`
   margin-right: 18px;
@@ -63,50 +63,50 @@ const NavIcon = styled(Icon)`
     margin: 0;
     margin-bottom: 18px;
   `}
-`
+`;
 
 type Props = {
-  location: Location
+  location: Location;
   data: {
-    path: string
-    icon: string
-  }[]
-}
+    path: string;
+    icon: string;
+  }[];
+};
 
 class ItemSideBar extends PureComponent<Props> {
   getIcon = (activeIconIndex: number) => (data: any, index: number) => {
-    const { path } = data
+    const { path } = data;
 
-    const active = index === activeIconIndex
-    const opacity = active ? 0.75 : 1
+    const active = index === activeIconIndex;
+    const opacity = active ? 0.75 : 1;
 
     return (
       <Link key={path} to={path} style={{ opacity }}>
         <NavIcon depressed={active} size={64} name={get(data, "icon", "")} />
       </Link>
-    )
-  }
+    );
+  };
 
   private getActiveIconIndex() {
     const {
       data,
       location: { pathname },
-    } = this.props
+    } = this.props;
 
-    return findIndex(data, ({ path }) => pathname.includes(path))
+    return findIndex(data, ({ path }) => pathname.includes(path));
   }
 
   render() {
-    const { data } = this.props
+    const { data } = this.props;
 
-    const activeIconIndex = this.getActiveIconIndex()
+    const activeIconIndex = this.getActiveIconIndex();
 
     return (
       <SideNav activeIndex={activeIconIndex}>
         {data.map(this.getIcon(activeIconIndex))}
       </SideNav>
-    )
+    );
   }
 }
 
-export default ItemSideBar
+export default ItemSideBar;

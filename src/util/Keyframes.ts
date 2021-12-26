@@ -1,4 +1,4 @@
-import { keyframes } from 'styled-components'
+import { keyframes } from "styled-components";
 
 export const Keyframes = {
   fadeIn: keyframes`
@@ -22,4 +22,4 @@ export const Keyframes = {
       transform: translateX(0);
     }
   `,
-}
+};

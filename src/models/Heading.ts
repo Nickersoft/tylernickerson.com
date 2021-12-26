@@ -1,4 +1,4 @@
 export type Heading = {
-  value: string
-  depth: number
-}
+  value: string;
+  depth: number;
+};
