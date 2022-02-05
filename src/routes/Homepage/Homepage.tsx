@@ -70,10 +70,10 @@ class Homepage extends Component<Props> {
     const renderPreview = hash.trim().length > 0;
 
     return (
-      <HomepageWrapper>
+      <div tw="h-full flex-grow flex flex-row justify-center">
         {renderPreview ? this.getProjectPreview(hash) : <AnimatedHeader />}
         <IconGrid selectedIcon={hash || ""} />
-      </HomepageWrapper>
+      </div>
     );
   }
 }

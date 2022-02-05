@@ -4,6 +4,7 @@ import styled, { css, keyframes } from "styled-components";
 
 import { Colors, breakpoint, Keyframes } from "@site/util";
 import { graphql, StaticQuery } from "gatsby";
+import tw from "twin.macro";
 
 type FadeState = "in" | "out" | "none";
 
@@ -11,17 +12,6 @@ type State = {
   fadeState: FadeState;
   currentTitleIndex: number;
 };
-
-const Header = styled.h1`
-  text-align: center;
-  color: ${Colors.gray};
-  transition: all 0.5s ease-in-out;
-  line-height: 1.15em;
-
-  ${breakpoint.desktop`
-    text-align: left;
-  `}
-`;
 
 const fadeInAnimation = keyframes`
   from {
@@ -54,7 +44,7 @@ type AnimatedTextState = {
 
 const AnimatedTextContainer = styled.span`
   display: inline-block;
-  width: 11.15rem;
+  width: 14rem;
   position: relative;
 
   &:after {
@@ -197,7 +187,7 @@ class HomepageAnimatedHeader extends Component<Props, State> {
         `}
         render={({ resume: { publicURL: resumeLink } }) => (
           <Container>
-            <Header>
+            <h1 tw="text-gray text-5xl transition-all duration-500 ease-in-out leading-tight mb-4 font-bold text-center lg:text-left">
               Hi there! {`\u{1F44B}`} I'm Tyler.
               <br />
               I'm a{" "}
@@ -207,7 +197,7 @@ class HomepageAnimatedHeader extends Component<Props, State> {
                 </AnimatedText>
               </AnimatedTextContainer>{" "}
               in Silicon Valley.
-            </Header>
+            </h1>
             <ResumeLink>
               Don't have time to browse? Feel free to{" "}
               <a target="_blank" href={resumeLink}>

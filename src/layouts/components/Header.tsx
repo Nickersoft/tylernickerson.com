@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Link as GatsbyLink } from "gatsby";
 import { get } from "lodash";
 
+import tw from "twin.macro";
 import styled from "styled-components";
 
 import { Link } from "@site/models";
@@ -20,14 +21,12 @@ type HeaderLinkProps = {
 };
 
 const HeaderLink = styled(GatsbyLink)<HeaderLinkProps>`
-  letter-spacing: 4px;
-  line-height: 2rem;
-  font-size: 1rem;
+  ${tw`leading-normal text-sm`};
+
   color: ${Colors.gray};
   width: 100%;
   height: 100%;
   display: block;
-  text-transform: uppercase;
   text-decoration: none;
   animation: ${Keyframes.fadeInUp} 0.2s ease-in-out;
   animation-delay: ${({ index }) => index * 0.2}s;
@@ -35,7 +34,6 @@ const HeaderLink = styled(GatsbyLink)<HeaderLinkProps>`
 
   ${breakpoint.desktop`
     animation: none;
-    font-size: 0.8rem;
     margin: 0;
     padding: 1rem 0;
   `}
