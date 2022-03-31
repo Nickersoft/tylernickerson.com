@@ -17,6 +17,11 @@ type Props = {
 };
 
 const BaseStyles = createGlobalStyle`
+  html, body, #___gatsby, #gatsby-focus-wrapper {
+    height: 100%;
+    width: 100%;
+  }
+
   body {
    background: #fbfbfb;
   }
@@ -52,9 +57,11 @@ const Layout: React.FC<Props> = ({ children, location }) => {
       </Helmet>
       <BaseStyles />
       <GlobalStyles />
-      <Header location={location} />
-      <Container style={{ padding: 0 }}>{children}</Container>
-      <Footer />
+      <div tw="flex flex-col min-h-full">
+        <Header location={location} />
+        <Container tw="flex-grow relative p-0">{children}</Container>
+        <Footer />
+      </div>
     </>
   );
 };

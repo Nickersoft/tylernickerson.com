@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { graphql } from "gatsby";
 import { map, flow, find, get } from "lodash/fp";
 
-import styled from "styled-components";
+import tw from "twin.macro";
 
 import ProjectPreview from "./HomepageProjectPreview";
 import AnimatedHeader from "./HomepageAnimatedHeader";
@@ -21,14 +21,6 @@ type Props = {
     };
   };
 };
-
-const HomepageWrapper = styled.main`
-  display: flex;
-  height: 30rem;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
 
 class Homepage extends Component<Props> {
   getProjectPreview(id: string) {
@@ -70,7 +62,7 @@ class Homepage extends Component<Props> {
     const renderPreview = hash.trim().length > 0;
 
     return (
-      <div tw="h-full flex-grow flex flex-row justify-center">
+      <div tw="absolute h-full items-center bg-red flex flex-row justify-center">
         {renderPreview ? this.getProjectPreview(hash) : <AnimatedHeader />}
         <IconGrid selectedIcon={hash || ""} />
       </div>

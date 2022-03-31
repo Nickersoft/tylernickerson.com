@@ -1,10 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 
 import { Link as GatsbyLink } from "gatsby";
 import { get } from "lodash";
 
-import tw from "twin.macro";
-import styled from "styled-components";
+import tw, { styled } from "twin.macro";
 
 import { Link } from "@site/models";
 import { Container } from "@site/components";
@@ -21,7 +20,7 @@ type HeaderLinkProps = {
 };
 
 const HeaderLink = styled(GatsbyLink)<HeaderLinkProps>`
-  ${tw`leading-normal text-sm`};
+  ${tw`leading-normal text-base`};
 
   color: ${Colors.gray};
   width: 100%;
@@ -105,74 +104,37 @@ const MobileOpenButton = styled.button`
 `;
 
 const HeaderList = styled.ul<HeaderListProps>`
-  list-style: none;
-  margin: 0;
-  display: ${({ visible }) => (visible ? "flex" : "none")};
-  flex-direction: column;
-  justify-content: center;
-  position: fixed;
-  background: #fbfbfb;
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
+  ${tw`list-none p-0 m-0 bg-offWhite z-[9999]`}
+  ${tw`transition-all ease-in-out duration-500`};
+  ${tw`w-full h-full lg:(w-auto h-auto)`};
+  ${tw`fixed lg:relative`};
+  ${tw`flex-col justify-center lg:flex-row lg:flex!`};
+  ${tw`after:hidden lg:after:block`}
+  ${({ visible }) => (visible ? tw`flex` : tw`hidden`)};
 
-  ${breakpoint.desktop`
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    padding: 0;
-    transition: all 0.5s ease-in-out;
-    width: auto;
-    height: auto;
-
-    &:after {
-      content: '';
-      height: 4px;
-      width: ${({ percentage }: HeaderListProps) => percentage * 100}%;
-      display: block;
-      position: absolute;
-      bottom: 0;
-      background: ${Colors.blue};
-      transition: all 0.25s ease-in-out;
-      left: ${({ offset, percentage }: HeaderListProps) =>
-        offset * percentage * 100}%;
-    }
-  `}
+  &:after {
+    content: "";
+    height: 4px;
+    width: ${({ percentage }: HeaderListProps) => percentage * 100}%;
+    position: absolute;
+    bottom: 0;
+    background: ${Colors.blue};
+    transition: all 0.25s ease-in-out;
+    left: ${({ offset, percentage }: HeaderListProps) =>
+      offset * percentage * 100}%;
+  }
 `;
 
 type Props = {
   location: Location;
 };
 
-type State = {
-  mobileMenuShowing: boolean;
-  currentLocation: string | null;
-};
+const Header: React.FC<Props> = ({ location }) => {
+  const [mobileMenuShowing, setMobileMenuShowing] = useState(false);
 
-class Header extends Component<Props, State> {
-  static defaultProps = {
-    siteTitle: "",
-  };
+  const currentLocation = location?.pathname ?? null;
 
-  state = {
-    mobileMenuShowing: false,
-    currentLocation: null,
-  };
-
-  static getDerivedStateFromProps(props: Props, state: State) {
-    const pathname = get(props, "location.pathname");
-
-    if (pathname !== state.currentLocation) {
-      return {
-        mobileMenuShowing: false,
-        currentLocation: props.location.pathname,
-      };
-    }
-
-    return null;
-  }
-
-  links = [
+  const links = [
     Link("Home", ""),
     Link("Experience", "experience"),
     Link("Projects", "projects"),
@@ -181,64 +143,46 @@ class Header extends Component<Props, State> {
     Link("Contact", "contact"),
   ];
 
-  openMobileMenu() {
-    this.setState({
-      mobileMenuShowing: true,
-    });
-  }
+  const itemWidth = 1 / Math.max(links.length, 1);
 
-  closeMobileMenu() {
-    this.setState({
-      mobileMenuShowing: false,
-    });
-  }
-
-  render() {
-    const { location } = this.props;
-    const { mobileMenuShowing } = this.state;
-
-    const itemWidth = 1 / Math.max(this.links.length, 1);
-
-    let navMatch = this.links.findIndex(
+  let navMatch = Math.max(
+    0,
+    links.findIndex(
       ({ location: linkLoc }) =>
-        location.pathname.includes(linkLoc.split("/")[0]) &&
+        currentLocation.includes(linkLoc.split("/")[0]) &&
         linkLoc.trim().length > 0
-    );
+    )
+  );
 
-    if (navMatch === -1) {
-      navMatch = 0;
-    }
+  return (
+    <Container tw="lg:(pt-8 px-0 pb-12 w-[95%]) p-0">
+      {mobileMenuShowing ? (
+        <MobileCloseButton onClick={() => setMobileMenuShowing(false)} />
+      ) : (
+        <MobileOpenButton onClick={() => setMobileMenuShowing(true)}>
+          Navigation
+        </MobileOpenButton>
+      )}
 
-    return (
-      <HeaderContainer>
-        {mobileMenuShowing ? (
-          <MobileCloseButton onClick={this.closeMobileMenu.bind(this)} />
-        ) : (
-          <MobileOpenButton onClick={this.openMobileMenu.bind(this)}>
-            Navigation
-          </MobileOpenButton>
-        )}
-
-        <HeaderList
-          percentage={itemWidth}
-          offset={navMatch}
-          visible={mobileMenuShowing}
-        >
-          {this.links.map(({ name, location }, idx) => (
-            <HeaderItem key={location}>
-              <HeaderLink
-                to={`/${location}`}
-                index={idx}
-                style={{ opacity: idx === navMatch ? 1 : 0.5 }}
-              >
-                {name}
-              </HeaderLink>
-            </HeaderItem>
-          ))}
-        </HeaderList>
-      </HeaderContainer>
-    );
-  }
-}
+      <HeaderList
+        percentage={itemWidth}
+        offset={navMatch}
+        visible={mobileMenuShowing}
+      >
+        {links.map(({ name, location }, idx) => (
+          <HeaderItem key={location}>
+            <HeaderLink
+              to={`/${location}`}
+              index={idx}
+              style={{ opacity: idx === navMatch ? 1 : 0.5 }}
+            >
+              {name}
+            </HeaderLink>
+          </HeaderItem>
+        ))}
+      </HeaderList>
+    </Container>
+  );
+};
 
 export default Header;
