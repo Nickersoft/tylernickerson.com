@@ -57,9 +57,8 @@ class HomepageIconGrid extends Component<Props> {
 
     return (
       <Grid>
-        <Row>{["datql", "edart", "linguistic"].map(getIcon)}</Row>
-        <Row>{["odict", "push"].map(getIcon)}</Row>
-        <Row>{["fission"].map(getIcon)}</Row>
+        <Row>{["datql", "edart", "odict"].map(getIcon)}</Row>
+        <Row>{["fission", "push"].map(getIcon)}</Row>
       </Grid>
     );
   }

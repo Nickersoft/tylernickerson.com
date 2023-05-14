@@ -1,51 +1,9 @@
-const fs = require("fs")
-const path = require("path")
-const _ = require("lodash")
-
-function createPortfolioRoutes({ createPage }, graphql) {
-  const template = path.resolve(`src/routes/Portfolio/PortfolioPage.tsx`)
-
-  return graphql(`
-    {
-      allMarkdownRemark(
-        filter: { fileAbsolutePath: { regex: "/portfolio/" } }
-      ) {
-        edges {
-          node {
-            frontmatter {
-              title
-              path
-            }
-          }
-        }
-      }
-    }
-  `)
-    .then(result => {
-      if (result.errors) {
-        Promise.reject(result.errors)
-      }
-
-      return Promise.all(
-        result.data.allMarkdownRemark.edges.map(({ node }) => {
-          const { frontmatter } = node
-          const { path } = frontmatter
-
-          return createPage({
-            path,
-            component: template,
-            context: {
-              layout: "main",
-            },
-          })
-        })
-      )
-    })
-    .catch(console.error)
-}
+const fs = require("fs");
+const path = require("path");
+const _ = require("lodash");
 
 function createPublicationRoutes({ createPage }, graphql) {
-  const template = path.resolve(`src/routes/Publications/Publication.tsx`)
+  const template = path.resolve(`src/routes/Publications/Publication.tsx`);
 
   return graphql(`
     {
@@ -63,15 +21,15 @@ function createPublicationRoutes({ createPage }, graphql) {
       }
     }
   `)
-    .then(result => {
+    .then((result) => {
       if (result.errors) {
-        Promise.reject(result.errors)
+        Promise.reject(result.errors);
       }
 
       return Promise.all(
         result.data.allMarkdownRemark.edges.map(({ node }) => {
-          const { frontmatter } = node
-          const { path } = frontmatter
+          const { frontmatter } = node;
+          const { path } = frontmatter;
 
           return createPage({
             path,
@@ -79,15 +37,15 @@ function createPublicationRoutes({ createPage }, graphql) {
             context: {
               layout: "main",
             },
-          })
+          });
         })
-      )
+      );
     })
-    .catch(console.error)
+    .catch(console.error);
 }
 
 function createExperienceRoutes({ createPage, createRedirect }, graphql) {
-  const template = path.resolve(`src/routes/Experience/Experience.tsx`)
+  const template = path.resolve(`src/routes/Experience/Experience.tsx`);
 
   return graphql(`
     {
@@ -106,9 +64,9 @@ function createExperienceRoutes({ createPage, createRedirect }, graphql) {
         }
       }
     }
-  `).then(result => {
+  `).then((result) => {
     if (result.errors) {
-      return Promise.reject(result.errors)
+      return Promise.reject(result.errors);
     }
 
     const allMatter = _.reverse(
@@ -116,14 +74,14 @@ function createExperienceRoutes({ createPage, createRedirect }, graphql) {
         "years",
         "title",
       ])
-    )
+    );
 
     createRedirect({
       fromPath: `/experience`,
       isPermanent: true,
       redirectInBrowser: true,
       toPath: _.get(allMatter, "[0].path", ""),
-    })
+    });
 
     return Promise.all(
       allMatter.map(({ path }) =>
@@ -136,12 +94,12 @@ function createExperienceRoutes({ createPage, createRedirect }, graphql) {
           },
         })
       )
-    )
-  })
+    );
+  });
 }
 
 function createProjectRoutes({ createPage, createRedirect }, graphql) {
-  const template = path.resolve(`src/routes/Projects/Projects.tsx`)
+  const template = path.resolve(`src/routes/Projects/Projects.tsx`);
 
   return graphql(`
     {
@@ -161,9 +119,9 @@ function createProjectRoutes({ createPage, createRedirect }, graphql) {
         }
       }
     }
-  `).then(result => {
+  `).then((result) => {
     if (result.errors) {
-      return Promise.reject(result.errors)
+      return Promise.reject(result.errors);
     }
 
     const allMatter = _.reverse(
@@ -171,14 +129,14 @@ function createProjectRoutes({ createPage, createRedirect }, graphql) {
         "sub",
         "title",
       ])
-    )
+    );
 
     createRedirect({
       fromPath: `/projects`,
       isPermanent: true,
       redirectInBrowser: true,
       toPath: _.get(allMatter, "[0].path", ""),
-    })
+    });
 
     return Promise.all(
       allMatter.map(({ path }) =>
@@ -191,22 +149,22 @@ function createProjectRoutes({ createPage, createRedirect }, graphql) {
           },
         })
       )
-    )
-  })
+    );
+  });
 }
 
 function createBaseRoutes({ createPage }) {
-  const pagesDir = path.resolve(__dirname, "src/routes")
+  const pagesDir = path.resolve(__dirname, "src/routes");
   const directories = fs
     .readdirSync(pagesDir)
-    .filter(dir => fs.lstatSync(path.join(pagesDir, dir)).isDirectory())
+    .filter((dir) => fs.lstatSync(path.join(pagesDir, dir)).isDirectory());
 
   return Promise.all(
-    directories.map(directory => {
-      const baseName = path.basename(directory)
-      const template = path.join(pagesDir, directory, `${directory}.tsx`)
+    directories.map((directory) => {
+      const baseName = path.basename(directory);
+      const template = path.join(pagesDir, directory, `${directory}.tsx`);
       const url =
-        baseName.toLowerCase() === "homepage" ? "/" : _.kebabCase(baseName)
+        baseName.toLowerCase() === "homepage" ? "/" : _.kebabCase(baseName);
 
       if (!["experience", "projects"].includes(directory.toLowerCase())) {
         return createPage({
@@ -215,12 +173,12 @@ function createBaseRoutes({ createPage }) {
           context: {
             layout: "main",
           },
-        })
+        });
       }
 
-      return Promise.resolve()
+      return Promise.resolve();
     })
-  )
+  );
 }
 
 exports.createPages = ({ graphql, actions }) =>
@@ -229,8 +187,7 @@ exports.createPages = ({ graphql, actions }) =>
     createProjectRoutes(actions, graphql),
     createPublicationRoutes(actions, graphql),
     createExperienceRoutes(actions, graphql),
-    createPortfolioRoutes(actions, graphql),
-  ])
+  ]);
 
 exports.onCreateWebpackConfig = ({ stage, actions }) => {
   actions.setWebpackConfig({
@@ -241,5 +198,5 @@ exports.onCreateWebpackConfig = ({ stage, actions }) => {
         "@site/util": path.resolve(__dirname, "src/util"),
       },
     },
-  })
-}
+  });
+};

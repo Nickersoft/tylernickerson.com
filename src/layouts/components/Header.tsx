@@ -178,7 +178,6 @@ class Header extends Component<Props, State> {
     Link("Home", ""),
     Link("Experience", "experience"),
     Link("Projects", "projects"),
-    Link("Portfolio", "portfolio"),
     Link("Publications", "publications"),
     Link("Contact", "contact"),
   ];

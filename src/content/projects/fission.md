@@ -45,6 +45,3 @@ $$
 GB(s, c) = c \cdot \frac{s}{168}
 $$
 
-### Visual Design
-
-The Fission brand and product design is part of my portfolio. You can read the full write-up on the brand's development [here](/portfolio/fission).
